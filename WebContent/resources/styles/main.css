@@ -1,0 +1,334 @@
+/* Main CSS file */
+
+html * {
+    margin: 0;
+    /*padding: 0; SELECT NOT DISPLAYED CORRECTLY IN FIREFOX */
+}
+
+body {
+    background: #fff;
+    color: #333;
+    font: 11px verdana, arial, helvetica, sans-serif;
+    margin: 0px auto;   
+    width: 800px;
+}
+
+a:link, a:visited, a:hover {
+    color: #666;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+h1 {
+    color: #48802c;
+    font-weight: normal;
+    font-size: 16px;
+    margin: .8em 0 .3em 0;
+}
+
+ul {
+    padding-left: 15px;
+}
+
+input, select, textarea {
+    background-color: #fcfcfc;
+    border: 1px solid #ccc;
+    font: 11px verdana, arial, helvetica, sans-serif;
+    margin: 2px 0;
+    padding: 2px 4px;
+}
+select {
+   padding: 2px 2px 2px 0;
+}
+
+textarea {
+  vertical-align: top;
+}
+
+input:focus, select:focus, textarea:focus {
+    border: 1px solid #b2d1ff;
+}
+
+/* TABLES */
+
+table {
+    border: 1px solid #ccc;
+    width: 100%
+}
+
+tr {
+    border: 0;
+}
+
+td, th {
+    line-height: 12px;
+    padding: 3px 4px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+	  background: #ddd;
+}
+
+th a:link, th a:visited, th a:hover {
+    color: #333;
+    display: block;
+    font-size: 10px;
+    text-decoration: none;
+    width: 100%;
+}
+
+.odd {
+	  background: #fff;
+    
+}
+.even {
+    background: #f7f7f7;
+}
+
+/* LIST */
+
+.list table {
+    border-collapse: collapse;
+}
+.list th, .list td {
+    border-bottom: 1px solid #ddd;
+}
+.list th:hover, .list tr:hover {
+    background: #b2d1ff;
+}
+
+/* MESSAGES AND ERRORS */
+
+.message {
+    background: #f3f8fc url(../images/skin/information.png) 8px 50% no-repeat;
+    border: 1px solid #b2d1ff;
+    color: #006dba;
+    margin: 10px 0 5px 0;
+    padding: 5px 5px 5px 30px
+}
+
+div.errors {
+    background: #fff3f3;
+    border: 1px solid red;
+    color: #cc0000;
+    margin: 10px 0 5px 0;
+    padding: 5px 0 5px 0;
+}
+
+div.errors ul {
+    list-style: none;
+    padding: 0;
+}
+
+div.errors li {
+  background: url(../images/skin/exclamation.png) 8px 0% no-repeat;
+    line-height: 16px;
+    padding-left: 30px;
+}
+
+td.errors select {
+    border: 1px solid red;
+}
+td.errors input {
+    border: 1px solid red;
+}
+td.errors textarea {
+    border: 1px solid red;
+}
+
+/* PAGINATION */
+
+.paginateButtons {
+    background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
+    border: 1px solid #ccc;
+    border-top: 0;
+    color: #666;
+    font-size: 10px;
+    overflow: hidden;
+    padding: 10px 3px;
+}
+.paginateButtons a {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-color: #ccc #aaa #aaa #ccc;
+    color: #666;
+    margin: 0 3px;
+    padding: 2px 6px;
+}
+.paginateButtons span {
+    padding: 2px 3px;
+}
+
+/* DIALOG */
+
+.dialog table {
+    padding: 5px 0;
+}
+
+.prop {
+    padding: 5px;
+}
+.prop .name {
+    text-align: left;
+    width: 15%;
+    white-space: nowrap;
+}
+.prop .value {
+    text-align: left;
+    width: 85%;
+}
+
+/* TOP BUTTON AREA */
+
+.topButtons {
+    background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
+    border: 1px solid #ccc;
+    border-style: solid none solid none;
+    margin: 3px 0px;
+    padding: 4px 9px;
+}
+
+.topButtons a {
+	  font-weight: bold;
+    margin-left: 3px;
+    padding: 4px 6px;
+}
+.topButtons a.home {
+    background: url(../images/skin/house.png) center left no-repeat;
+    color: #333;
+    padding-left: 25px;
+}
+.topButtons a.list {
+    background: url(../images/skin/database_table.png) center left no-repeat;
+    color: #333;
+    padding-left: 25px;
+}
+.topButtons a.create {
+    background: url(../images/skin/database_add.png) center left no-repeat;
+    color: #333;
+    padding-left: 25px;
+}
+
+/* BUTTON BUTTON AREA */
+
+.botButtons {
+    background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
+    border: 1px solid #ccc;
+    border-style: solid none solid none;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    overflow: hidden;
+    padding: 0px;
+}
+
+.botButtons input {
+    background: #fff;
+    border: 0;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 3px;
+    overflow: visible;
+    padding: 2px 6px;
+}
+
+.botButtons a {
+    border: 0;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 3px 3px;
+    overflow: visible;
+    padding: 4px 6px;
+    line-height: 1.95;
+}
+
+.botButtons input.edit {
+    background: transparent url(../images/skin/database_edit.png) 5px 50% no-repeat;
+    padding-left: 25px;
+}
+
+.botButtons input.save {
+    background: transparent url(../images/skin/database_save.png) 5px 50% no-repeat;
+    padding-left: 25px;
+}
+
+.botButtons input.delete {
+    background: transparent url(../images/skin/database_delete.png) 5px 50% no-repeat;
+    padding-left: 25px;
+}
+
+.botButtons a.edit {
+    background: transparent url(../images/skin/database_edit.png) 5px 50% no-repeat;
+    padding-left: 25px;
+}
+
+.botButtons a.save {
+    background: transparent url(../images/skin/database_save.png) 5px 50% no-repeat;
+    padding-left: 25px;
+}
+
+.botButtons a.delete {
+    background: transparent url(../images/skin/database_delete.png) 5px 50% no-repeat;
+    padding-left: 25px;
+}
+
+/* LAYOUT ELEMENTS */
+
+#header {
+  margin: 0px;
+  height: 80px;
+  color: black;
+  width: 800px;
+}
+
+.welcomeMsg {
+  font: 25px Georgia1, Georgia, serif;
+  color: #0B3861;
+  margin-bottom: 10px;
+  height: 48px;
+}
+
+.statusArea {
+	font: 19px Georgia1, Georgia, serif;
+	padding: 4px;
+  color: white;
+  background: #221188;
+}
+
+#content {
+  overflow: hidden;
+  display: inline; /* IE double margin bug fix */
+  float: left;
+  margin: 3px 0px 3px 0px;
+  width: 800px;
+}
+
+#footer {
+	background: #33CCCC;
+	margin-top: 5px;
+	color: #000;
+	padding: 5px;
+	width: 800px;
+}
+
+.section {
+	font: 15px Georgia1, Georgia, serif;
+}
+
+.section td {
+  line-height: 17px;
+}
+
+.section th { padding: 5px; }
+.section th a { font: 15px Georgia1, Georgia, serif; }
+.section td { padding: 5px; }
+
+.subsection {
+  margin-top: 25px;
+  font: 20px Georgia1, Georgia, serif;
+}
+
+.login { font-size: 15px; float: right; background: #cccccc; padding: 5px; }

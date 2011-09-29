@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+  <definition name="login" template="/WEB-INF/views/home/login.jsp">
+  </definition>
+   
+	<definition name="standardLayout" template="/WEB-INF/layouts/standard.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
+		<put-attribute name="tabs" value="/WEB-INF/views/tabs.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
+	</definition>
+  
+  <definition name="logEntry/*" extends="standardLayout">
+    <put-attribute name="title" value="Log Entries" />
+    <put-attribute name="body" value="/WEB-INF/views/logEntry/{1}.jsp" />
+  </definition>
+  
+  <definition name="home/*" extends="standardLayout">
+    <put-attribute name="title" value="Welcome" />
+    <put-attribute name="body" value="/WEB-INF/views/home/{1}.jsp" />
+  </definition>
+  
+  <definition name="level/*" extends="standardLayout">
+    <put-attribute name="title" value="Levels" />
+    <put-attribute name="body" value="/WEB-INF/views/level/{1}.jsp" />
+  </definition>
+  
+  <definition name="badge/*" extends="standardLayout">
+    <put-attribute name="title" value="Badges" />
+    <put-attribute name="body" value="/WEB-INF/views/badge/{1}.jsp" />
+  </definition>
+  
+  <definition name="user/*" extends="standardLayout">
+    <put-attribute name="title" value="Users" />
+    <put-attribute name="body" value="/WEB-INF/views/user/{1}.jsp" />
+  </definition>
+  
+  <definition name="activity/*" extends="standardLayout">
+    <put-attribute name="title" value="Activities" />
+    <put-attribute name="body" value="/WEB-INF/views/activity/{1}.jsp" />
+  </definition>
+  
+  <definition name="goal/*" extends="standardLayout">
+    <put-attribute name="title" value="Goals" />
+    <put-attribute name="body" value="/WEB-INF/views/goal/{1}.jsp" />
+  </definition>
+  
+  <definition name="challenge/*" extends="standardLayout">
+    <put-attribute name="title" value="Challenges" />
+    <put-attribute name="body" value="/WEB-INF/views/challenge/{1}.jsp" />
+  </definition>
+  
+  <definition name="history/*" extends="standardLayout">
+    <put-attribute name="title" value="History" />
+    <put-attribute name="body" value="/WEB-INF/views/history/{1}.jsp" />
+  </definition>
+  
+</tiles-definitions>

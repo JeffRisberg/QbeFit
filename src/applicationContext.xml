@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <context:property-placeholder location="classpath*:application.properties"/>
+ 
+  <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
+        <property name="driverClassName" value="${database.driverClassName}"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
+        <property name="validationQuery" value="SELECT 1 FROM DUAL"/>
+        <property name="testOnBorrow" value="true"/>
+  </bean>
+ 
+  <bean id="sessionFactory"
+    class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <property name="dataSource">
+      <ref bean="dataSource" />
+    </property>
+    <property name="annotatedClasses">
+      <list>
+        <value>com.incra.domain.Activity</value>
+        <value>com.incra.domain.ActivityCategory</value>
+        <value>com.incra.domain.Badge</value>
+        <value>com.incra.domain.Challenge</value>
+        <value>com.incra.domain.ChallengeStep</value>
+        <value>com.incra.domain.Country</value>
+        <value>com.incra.domain.Event</value>
+        <value>com.incra.domain.Goal</value>       
+        <value>com.incra.domain.GroupMember</value>
+        <value>com.incra.domain.Level</value>
+        <value>com.incra.domain.LogEntry</value>
+        <value>com.incra.domain.LogEntryKey</value>
+        <value>com.incra.domain.TimeZone</value> 
+        <value>com.incra.domain.User</value>     
+        <value>com.incra.domain.UserActivity</value> 
+        <value>com.incra.domain.UserBadge</value>  
+        <value>com.incra.domain.UserChallenge</value>  
+        <value>com.incra.domain.UserGoal</value>
+        <value>com.incra.domain.UserGroup</value>          
+        <value>com.incra.domain.UserOption</value>                      
+      </list>
+    </property>
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+        <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+        <prop key="hibernate.hbm2ddl.auto">update</prop>
+      </props>
+    </property>
+  </bean>
+ 
+  <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" >
+      <constructor-arg value="1"/>
+  </bean>
+    
+</beans>

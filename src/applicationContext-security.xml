@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+    <global-method-security pre-post-annotations="enabled" />
+
+    <http use-expressions="true">
+      <intercept-url pattern="/" access="permitAll()" />
+      <intercept-url pattern="/home" access="permitAll()" />
+      <intercept-url pattern="/home/index" access="permitAll()" />
+      <intercept-url pattern="/home/login" access="permitAll()" />
+      <intercept-url pattern="/home/about" access="permitAll()" />
+      <intercept-url pattern="/home/terms" access="permitAll()" />
+      <intercept-url pattern="/user/register" access="permitAll()" />
+      <intercept-url pattern="/resources/**" access="permitAll()" />      
+      <intercept-url pattern="/**" access="isAuthenticated()" />
+      <form-login 
+         login-page="/home/login" 
+         default-target-url="/home/loginComplete"
+         always-use-default-target="true"
+         authentication-failure-url="/home/login?login_error=1" />
+      <logout />
+      <remember-me />
+        
+      <session-management>
+        <concurrency-control max-sessions="1" expired-url="/home/login?error=expired"/>
+      </session-management>
+    </http>
+    
+    <beans:bean id="customUserDetailsService" class="com.incra.services.MyUserDetailsService"> 
+      <beans:property name="dataSource" ref="dataSource" />
+    </beans:bean>
+    
+    <authentication-manager>
+         <authentication-provider user-service-ref="customUserDetailsService" >
+             <password-encoder hash="sha">              
+             </password-encoder>
+           </authentication-provider>
+    </authentication-manager>
+</beans:beans>
