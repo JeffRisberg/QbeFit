@@ -5,7 +5,6 @@
 
 <style>
 .tagline {
-    font-family: georgia;
     font-weight: heavy;
     font-size: 30px;
     color: #0099dd;   
@@ -37,7 +36,7 @@
 </script>
      
 <p align="center">
-<div style="width: 800px; background-color: #fff;">
+<div style="width: 800px;">
 <div style="margin: 10px 0px 14px 0px">
 <span class="tagline">Your QbeFit exercise is: ${activity.name}</span>
 </div>
