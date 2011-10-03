@@ -1,6 +1,7 @@
 package com.incra.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -87,6 +88,8 @@ public class UserController implements ApplicationContextAware {
 
             user.setPassword(encPassword);
             user.setLevel(levelService.computeLevel(user.getPoints()));
+            user.setLoginCount(1);
+            user.setLastLoggedIn(new Date());
             userService.save(user);
 
             // Perform Programmatic login
