@@ -136,7 +136,7 @@ public class Bootstrap implements ServletContextListener {
         Activity activityDebDun = buildActivity("Debugging Dunks", physical, 2, "CIMG0065", null,
                 "Tone your arm while recycling trash around the office. "
                         + " Stand 3 or 4 feet away from the recycling bin, aim, and shoot!"
-                        + " Challenge your Qbermate for the 3 pointer.");
+                        + " Challenge your qubemate for the 3 pointer.");
 
         Activity activityComCli = buildActivity("Compile-time Climbs", physical, 2, "CIMG0069",
                 "CIMG0070", "See you if can run up one stair and then down another in less time "
@@ -151,7 +151,7 @@ public class Bootstrap implements ServletContextListener {
         Activity activitySwaDiv = buildActivity("Swan Dives", physical, 3, "CIMG0071", null,
                 "This is a hidden exercise gem inside your office's handicap bathroom.  "
                         + "Its a metal bar that you can use for a varity of stretches.  "
-                        + "Try to dive but don't forget where your head is.");
+                        + "Try to dive but don't forget where your head is!");
 
         Activity activityTecCru = buildActivity("Tech Crunches", physical, 4, "CIMG0126",
                 "CIMG0127", "Sit in your chair, and pull your legs up tight. "
