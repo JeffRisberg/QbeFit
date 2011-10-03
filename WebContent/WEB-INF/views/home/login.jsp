@@ -5,11 +5,10 @@
 
 <style>
 .tagline {
-    font-family:georgia;
     font-weight:heavy;
     font-size:30px;
     color:#0099dd;
-    }
+}
 .subtagline { font-size: 19px; margin-bottom: 4px; }
 .error {   
     width: 495px; 
@@ -22,7 +21,7 @@
 .reg {
     font-size: 16px;
     font-family:helvetica;
-    }
+}
 .reg_input {
     font-size: 16px;
     margin-left: 20px;
@@ -31,12 +30,15 @@
     height: 25px;
     width: 340px;
     font-family:helvetica;
-    }
+}
 input { 
     -webkit-border-radius: 5px; 
     -moz-border-radius: 5px; 
     border-radius: 5px; 
-    }
+}
+.label {
+    padding-top: 12px;
+}
 .button {
     padding: 10px 10px;
     margin-left:19px;
@@ -53,16 +55,16 @@ input {
     text-shadow: 1px 1px #666;
     font-size:18px;
     font-family:helvetica;
-    }
+}
 .button:hover {
     background-position: 0 -48px;
-    }
+}
 .button:active {
     background-position: 0 top;
     position: relative;
     top: 1px;
     padding: 6px 10px 4px;
-    }
+}
 </style>
 
 <div style="line-height:48px; margin-left:45px;">
@@ -79,12 +81,12 @@ The username or password you entered were not found.  Please try again.
 
 <table style="width:500px; margin-left:45px; margin-bottom:15px;" class="reg">
   <tr>
-   <td>Email&nbsp;Address:</td>
+   <td class="label">Email&nbsp;Address:</td>
    <td><input type="text" name="j_username" class="reg_input" /></td>
   </tr>
 
   <tr>
-   <td>Password:</td>
+   <td class="label">Password:</td>
    <td><input type="password" name="j_password" class="reg_input" /></td>
   </tr>
     

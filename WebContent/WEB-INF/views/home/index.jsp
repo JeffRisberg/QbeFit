@@ -31,7 +31,10 @@ input {
     -webkit-border-radius: 5px; 
     -moz-border-radius: 5px; 
     border-radius: 5px; 
-    }
+}
+.label {
+    padding-top: 12px;
+}
 .button {
     padding: 10px 10px;
     margin-left:19px;
@@ -48,19 +51,19 @@ input {
     text-shadow: 1px 1px #666;
     font-size:18px;
     font-family:helvetica;
-    }
+}
 .button:hover {
     background-position: 0 -48px;
-    }
+}
 .button:active {
     background-position: 0 top;
     position: relative;
     top: 1px;
     padding: 6px 10px 4px;
-    }
+}
 </style>
 
-<div style="background: #cdcdcd; margin: 20px 0px;">
+<div style="margin: 20px 0px;">
   <div class="tagline">
   QbeFit is <b>your</b> fitness solution.
   </div>
@@ -85,23 +88,23 @@ input {
 
 <table style="width:500px; margin-left:45px; margin-bottom:15px;" class="reg">
   <tr>
-    <td>First&nbsp;Name:</td>
+    <td class="label">First&nbsp;Name:</td>
     <td><form:input path="firstName" class="reg_input" />
     <form:errors path="firstName" cssClass="error" /></td>
-    <td>Last&nbsp;Name:</td>
+    <td class="label">Last&nbsp;Name:</td>
     <td><form:input path="lastName" class="reg_input" />
     <form:errors path="lastName" cssClass="error" /></td>
   </tr> 
   <tr>
-    <td>Email&nbsp;Address:</td>
+    <td class="label">Email&nbsp;Address:</td>
     <td colspan="99"><form:input path="email" class="reg_input wide" size="50" />
     <form:errors path="email" cssClass="error" /></td>
   </tr>
   <tr>
-    <td>Password:</td>
+    <td class="label">Password:</td>
     <td><form:password path="password" class="reg_input" />
     <form:errors path="password" cssClass="error" /></td>
-    <td>Confirm&nbsp;Password:</td>
+    <td class="label">Confirm&nbsp;Password:</td>
     <td><form:password path="confirmPassword" class="reg_input" />
     <form:errors path="confirmPassword" cssClass="error" /></td>
   </tr>

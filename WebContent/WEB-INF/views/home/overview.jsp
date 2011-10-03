@@ -24,7 +24,7 @@
  </div>
  <div class="statusArea" style="margin-bottom: 10px; margin-left: 50px; padding-bottom: 0px">
    <div style="float:right;">
-     <a style="color: white;" href="<c:url value="/level" />">Show Levels</a>
+     <a class="button" href="<c:url value="/level" />">Show Levels</a>
    </div>
    You are ${level.article} ${level.name}, with ${points} points.
    <div style="clear:both"></div>

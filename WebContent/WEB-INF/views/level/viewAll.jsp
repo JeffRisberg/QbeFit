@@ -38,6 +38,6 @@
   </div>
 </div>
 
-<p style="font-size: 14px">
+<p style="font-size: 14px; margin-bottom: 8px;">
 You earn points based on the difficulty points of each activity that you complete each day, with a bonus of 20 points just for joining QbeFit!
 </p>
