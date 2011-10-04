@@ -71,14 +71,13 @@
   <div class="grid-bottom"></div>  
 </div>
 <div class="subsection" class="select">
-	<a href="<c:url value="/activity/select" />">Select Activities</a>
+	<a href="<c:url value="/activity/select" />">Select Your Activities</a>
 </div>
 
-<div class='section' style="border-left: 15px solid #221188; padding-left: 5px; margin-bottom: 10px">
-<div style="margin-top: 10px">
+<div style="margin-top: 10px; font-size: 12px">
   <table> 
     <tr>
-      <th>&nbsp</th>
+      <th style="font-size: 16px">Goals:</th>
       <th>&nbsp</th>
     </tr>
   <c:forEach var="row" items="${goalList}" varStatus="rowCounter">   
@@ -90,9 +89,9 @@
   </table>
 </div>
 <div class="subsection" class="select">
-  <a href="<c:url value="/goal/select" />">Select Goals</a>
+  <a href="<c:url value="/goal/select" />">Select Your Goals</a>
 </div>
-</div>
+
 <script type="text/javascript"> 
   function doneIt(userActivityId) { 
     $.ajax({
