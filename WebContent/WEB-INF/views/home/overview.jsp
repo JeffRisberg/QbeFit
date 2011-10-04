@@ -6,6 +6,9 @@
   .select { background: white;  padding: 5px; font-size: 15px }
   table { border: 0px solid white; font-face: "Serif" }
   .button { background: #cccccc; padding: 4px; margin:3px; }
+  .grid-top { height: 32px; background: url(/QbeFit/resources/images/skin/bgr-overview-top.png) }
+  .grid-middle { height: 30px; background: url(/QbeFit/resources/images/skin/bgr-overview-mid.png) }
+  .grid-bottom { height: 20px; background: url(/QbeFit/resources/images/skin/bgr-overview-bot.png) }
 </style>
 <div class="welcomeMsg">
  <div style="float:right">
@@ -26,7 +29,7 @@
    <div style="float:right;">
      <a class="button" href="<c:url value="/level" />">Show Levels</a>
    </div>
-   You are ${level.article} ${level.name}, with ${points} points.
+   You are ${level.article} ${level.name}, with ${points} points
    <div style="clear:both"></div>
  </div>
  <div style="clear:both"></div>
@@ -39,33 +42,36 @@
 <a href="<c:url value="/history/workout" />">Workout History</a>
 </span>
 
-<div class='section' style="border-left: 15px solid #661133; padding-left: 5px; margin-bottom: 10px">
-<div style="margin-top: 10px">
-	<table> 
-  <tr>
-   <th>&nbsp;</th>
+<div style="margin-top: 10px; margin-left: 12px; width: 775px;">	
+  <div class="grid-top">
+   <div style="float:left; width:200px">&nbsp;</div>
    <c:forEach var="column" items="${trackSummaryColumnList}" varStatus="rowCounter"> 
-    <th>${column.label}</th>
+    <div style="padding: 10px 0px 0px 0px; float:left; width:85px">${column.label}</div>
    </c:forEach>
-   <th>&nbsp;</th>
-  </tr>
+   <div style="float:left; width:65px">&nbsp;</div>
+  </div>
+  <div style="clear:both"></div>
   <c:forEach var="row" items="${trackSummaryRowList}" varStatus="rowCounter">   
-    <tr>
-      <td><a href="<c:url value="/home/activity/${row.activityId}" />">${row.name}</a></td>
+    <div class="grid-middle">
+      <div style="float:left; width:200px;">
+        <a style="padding: 4px 4px 0px 12px; display:block;" href="<c:url value="/home/activity/${row.activityId}" />">${row.name}</a>
+      </div>
       <c:forEach var="flag" items="${row.flags}" varStatus="colCounter">
-        <td>
+        <div style="float:left; width:75px; padding: 7px 0px 0px 10px;">
         	<c:if test="${flag}"><img height="15" width="20" src="<c:url value="/resources/images/YES.png" />" /></c:if>
         	<c:if test="${!flag}"><img height="15" width="20" src="<c:url value="/resources/images/NO.png" />" /></c:if>
-        </td>
+        </div>
       </c:forEach>
-	   <th><a href="#" onclick="javascript:doneIt(${row.userActivityId});">Done</a></th>
-    </tr>
+	    <div style="float:left; width:55px; padding: 5px 0px 0px 10px;">
+	      <a href="#" onclick="javascript:doneIt(${row.userActivityId});">Done</a>
+	    </div>
+	    <div style="clear:both; height:40px;"></div>
+    </div>
   </c:forEach>
-  </table>
+  <div class="grid-bottom"></div>  
 </div>
 <div class="subsection" class="select">
 	<a href="<c:url value="/activity/select" />">Select Activities</a>
-</div>
 </div>
 
 <div class='section' style="border-left: 15px solid #221188; padding-left: 5px; margin-bottom: 10px">
