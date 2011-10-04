@@ -36,10 +36,10 @@
 </div>
 
 <span class="button">
-<a href="<c:url value="/history/activity" />">Activity History</a>
+<a href="<c:url value="/history/activity" />">Activity Chart</a>
 </span>
 <span class="button">
-<a href="<c:url value="/history/workout" />">Workout History</a>
+<a href="<c:url value="/history/workout" />">Workout Chart</a>
 </span>
 
 <div style="margin-top: 10px; margin-left: 12px; width: 775px;">	
