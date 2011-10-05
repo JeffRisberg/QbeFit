@@ -5,7 +5,7 @@
 <script type="text/javascript" src="<c:url value="/resources/javascript/highcharts.js"/>"></script>
 
 <div class="statusArea">
- ${userName}: You are ${level.article} ${level.name}, with ${points} points.
+ ${userName}: You are ${level.article} ${level.name}, with ${points} points
 </div>
 
 <div id="container"></div>
