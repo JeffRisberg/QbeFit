@@ -183,7 +183,7 @@ your IP address to help diagnose problems with our servers, gather broad
 demographic information, and administer our website. We may also link this
 information with your personal information when we feel that it is necessary to
 enforce compliance with our rules and policies or terms of service or to
-protect our Sites, customers or others.</p>
+protect our sites, customers or others.</p>
 
 <p class='terms'>Wireless Addresses</p>
 
