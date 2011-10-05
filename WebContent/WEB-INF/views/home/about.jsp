@@ -9,7 +9,7 @@
 <div style="margin-bottom: 20px">
 <p><b>QbeFit</b> allows you to exercise at your desk or office, for those of us too busy to
 get to the exercise club.  We offer a personalized set of unique, humorous, activities 
-designed for the cubicle-dweller in a today's software development organizations.
+designed for the cubicle-dweller in today's software development organizations.
 
 <p>QbeFit was developed at Startup Weekend, September 2011.  Here is our team:
 </div>
