@@ -81,7 +81,7 @@ public class ActivityController {
         User user = userService.getCurrentUser();
         List<Activity> activityList = activityService.findEntityList();
         List<UserActivity> priorUserActivityList = userActivityService.findEntityList(user);
-        System.out.println(priorUserActivityList);
+
         List<Boolean> selectedList = new ArrayList<Boolean>();
         for (Activity activity : activityList) {
             Integer activityId = activity.getId();

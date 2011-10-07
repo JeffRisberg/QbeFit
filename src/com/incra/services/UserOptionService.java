@@ -28,6 +28,7 @@ public class UserOptionService {
     private SessionFactory sessionFactory;
 
     /** Return all userOptions */
+    @SuppressWarnings("unchecked")
     public List<UserOption> findEntityList() {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(UserOption.class);
