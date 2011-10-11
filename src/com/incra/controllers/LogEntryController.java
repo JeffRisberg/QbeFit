@@ -19,8 +19,8 @@ import com.incra.services.LogEntryService;
 import com.incra.services.PageFrameworkService;
 
 /**
- * The <i>LogEntryController</i> controller defines operations on logEntry,
- * including selection.
+ * The <i>LogEntryController</i> controller supplies display, filter, and fetch
+ * operations on LogEntry records.
  * 
  * @author Jeffrey Risberg
  * @since 01/22/11

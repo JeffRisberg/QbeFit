@@ -1,7 +1,7 @@
 package com.incra.domain;
 
 /**
- * The <i>LogEntryKey</i> entity
+ * The <i>LogEntryKey</i> entity is shared by one or more LogEntry records.
  * 
  * @author Jeff Risberg
  * @since 09/10/11
@@ -32,6 +32,13 @@ public class LogEntryKey extends AbstractDomain implements Serializable {
 
     @Size(min = 2, max = 255, message = "The description must be at least two chars long.")
     private String description;
+
+    public LogEntryKey() {
+    }
+
+    public LogEntryKey(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;
@@ -74,7 +81,7 @@ public class LogEntryKey extends AbstractDomain implements Serializable {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("Challenge[name=" + name);
+        sb.append("LogEntryKey[name=" + name);
         sb.append("]");
         return sb.toString();
     }

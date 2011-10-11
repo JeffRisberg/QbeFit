@@ -1,7 +1,7 @@
 package com.incra.domain;
 
 /**
- * The <i>LogEntry</i> entity
+ * The <i>LogEntry</i> entity records a each user action and a set of parameters.
  * 
  * @author Jeff Risberg
  * @since 09/10/11
