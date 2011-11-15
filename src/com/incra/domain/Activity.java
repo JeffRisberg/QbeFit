@@ -1,7 +1,7 @@
 package com.incra.domain;
 
 /**
- * The <i>Activity</i> entity
+ * The <i>Activity</i> entity describes one action that can be selected and tracked.
  * 
  * @author Jeff Risberg
  * @since 09/10/11
@@ -36,7 +36,8 @@ public class Activity extends AbstractDomain implements Serializable {
     @JoinColumn(name = "activityCategory_id", nullable = true)
     private ActivityCategory activityCategory;
 
-    @Size(min = 2, max = 80, message = "The name must be at least two chars long.")
+    @Column(unique = true)
+    @Size(min = 2, max = 250, message = "The name must be at least two chars long.")
     private String name;
 
     // 1=easy, 4=hard
@@ -50,7 +51,7 @@ public class Activity extends AbstractDomain implements Serializable {
     @Column(nullable = true)
     private String photo2;
 
-    @Size(min = 2, max = 255, message = "The description must be at least two chars long.")
+    @Size(min = 0, max = 255, message = "The description must be less than 255 chars long.")
     private String description;
 
     public int getId() {

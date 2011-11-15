@@ -7,13 +7,18 @@ package com.incra.domain;
  * @since 02/08/11
  */
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.incra.domain.util.Objects;
 
@@ -26,10 +31,14 @@ public class ActivityCategory extends AbstractDomain implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", unique = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityCategory")
+    Set<Activity> activities = new HashSet<Activity>();
+
+    @Column(unique = true)
+    @Size(min = 2, max = 250, message = "The name must be at least two chars long.")
     private String name;
 
-    @Column(name = "description")
+    @Size(min = 0, max = 255, message = "The description must be less than 255 chars long.")
     private String description;
 
     public int getId() {
@@ -38,6 +47,14 @@ public class ActivityCategory extends AbstractDomain implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Set<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(Set<Activity> activities) {
+        this.activities = activities;
     }
 
     public String getName() {
@@ -54,6 +71,16 @@ public class ActivityCategory extends AbstractDomain implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void addActivity(Activity activity) {
+        activity.setActivityCategory(this);
+        activities.add(activity);
+    }
+
+    public void removeActivity(Activity activity) {
+        activity.setActivityCategory(null);
+        activities.remove(activity);
     }
 
     @Override

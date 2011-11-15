@@ -81,8 +81,6 @@ public class UserController implements ApplicationContextAware {
         String password = user.getPassword();
         String confirmPassword = user.getConfirmPassword();
 
-        logger.info("password=" + password + ", confirmPassword=" + confirmPassword);
-
         if (password.equals(confirmPassword)) {
             String encPassword = passwordEncoder.encodePassword(password, null);
 
