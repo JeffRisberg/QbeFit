@@ -1,7 +1,7 @@
 QbeFit was developed at Startup Weekend, September 2011
 
-Features
+Features:
 
-* Fun activities For developers at their desks
+* Fun activities for **developers** at their desks
 * Levels
 * Badges
