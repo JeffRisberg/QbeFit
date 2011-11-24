@@ -32,10 +32,14 @@ import com.incra.domain.Challenge;
 import com.incra.domain.Country;
 import com.incra.domain.Goal;
 import com.incra.domain.Level;
+import com.incra.domain.OrganizationType;
+import com.incra.domain.OrganizationTypeActivity;
+import com.incra.domain.Quiz;
 import com.incra.domain.TimeZone;
 import com.incra.domain.User;
 import com.incra.domain.UserBadge;
 import com.incra.domain.UserChallenge;
+import com.incra.domain.enums.EnumFieldType;
 
 /**
  * The <i>Bootstrap</i> class is a servletContextListener that initializes the
@@ -79,86 +83,99 @@ public class Bootstrap implements ServletContextListener {
         TimeZone timeZonePST = buildTimeZone("PST", "Los Angeles", 8);
         TimeZone timeZoneHST = buildTimeZone("HST", "Hawaii", 11);
 
+        // OrganizationType seeds
+        OrganizationType otIndividual = buildOrganizationType("Individual",
+                "A family, a person, a student");
+        OrganizationType otSmallMedCorp = buildOrganizationType("Small or Medium Size Business",
+                "A business typically with less than 500 employees");
+        OrganizationType otBigCorp = buildOrganizationType("Big Corporation",
+                "A business typically with more than 500 employees");
+        OrganizationType otSchool = buildOrganizationType("School", "A school within a district");
+        OrganizationType otSchoolDist = buildOrganizationType("School District",
+                "A entire school district");
+        OrganizationType otGovernment = buildOrganizationType("Government",
+                "A government agency, or worker within a government agency");
+
         // Activity Category seeds
-        ActivityCategory physical = buildActivityCategory("Physical", "1Desc");
-        ActivityCategory wellness = buildActivityCategory("Wellness", "2Desc");
+        ActivityCategory acPhysical = buildActivityCategory("Physical", "1Desc");
+        ActivityCategory acWellness = buildActivityCategory("Wellness", "2Desc");
 
         // Activity seeds
-        Activity activityDevDip = buildActivity("Developer Dips", physical, 3, "CIMG0002",
+        Activity activityDevDip = buildActivity("Developer Dips", acPhysical, 3, "CIMG0002",
                 "CIMG0001",
                 "You can do this sitting at your desk.  Place your hands on your armrests "
                         + "or the sides of your chair.  Push up using your upper arms. "
                         + "Count to ten.  Win points for sucking in your gut.");
 
-        Activity activityLapLif = buildActivity("Laptop Lifts", physical, 2, "CIMG0148",
+        Activity activityLapLif = buildActivity("Laptop Lifts", acPhysical, 2, "CIMG0148",
                 "CIMG0145", "Take that laptop and lift it to the sky! "
                         + " Bonus points for 17-inch and larger monitors.");
 
-        Activity activityNCNap = buildActivity("Native Code Naps", wellness, 1, "CIMG0077", null,
+        Activity activityNCNap = buildActivity("Native Code Naps", acWellness, 1, "CIMG0077", null,
                 "The exercise value of naps is underrated in today's world.  "
                         + "Your computer gets downtime, why shouldn't you?");
 
-        Activity activitySalStr = buildActivity("Sales Stretches", physical, 3, "CIMG0055",
+        Activity activitySalStr = buildActivity("Sales Stretches", acPhysical, 3, "CIMG0055",
                 "CIMG0056", "Give yourself a boost to reach that quota. "
                         + "Stretch out your right leg to the side, "
                         + "try to reach your toes. Switch sides.");
 
-        Activity activityMarMed = buildActivity("Marketing Meditations", wellness, 2, "CIMG0057",
+        Activity activityMarMed = buildActivity("Marketing Meditations", acWellness, 2, "CIMG0057",
                 null, "Find a quiet location with a comfortable seat.  "
                         + "Relax your mind and remember to take a deep breath in and out.");
 
-        Activity activityLinLea = buildActivity("Linux Leaps", physical, 2, "CIMG0058", "CIMG0059",
-                "Release your inner ninja by finding an object that you can leap over "
+        Activity activityLinLea = buildActivity("Linux Leaps", acPhysical, 2, "CIMG0058",
+                "CIMG0059", "Release your inner ninja by finding an object that you can leap over "
                         + "(Caution: Advanced qubies only!)");
 
-        Activity activityPHPPla = buildActivity("PHP Planks", physical, 4, "CIMG0884", null,
+        Activity activityPHPPla = buildActivity("PHP Planks", acPhysical, 4, "CIMG0884", null,
                 "Planking is hard work.  This is an unexpectedly difficult abdominal exercise. "
                         + "Maintain the position for one full minute. "
                         + " Do this ten times.  Take a picture and email it to us.");
 
-        Activity activityJavDet = buildActivity("Java Detox", wellness, 1, "CIMG0062", null,
+        Activity activityJavDet = buildActivity("Java Detox", acWellness, 1, "CIMG0062", null,
                 "Skip the coffee or soda machine and toast your colleagues with a glass of water.  "
                         + "Water is great for weight loss, so sometimes you might "
                         + "think you are hungry when you actually are thirsty.");
 
-        Activity activityRunRai = buildActivity("Run on Rails", physical, 3, "CIMG0060", null,
+        Activity activityRunRai = buildActivity("Run on Rails", acPhysical, 3, "CIMG0060", null,
                 "Find some funky music and a sturdy office desk.  Hop on the desk.  "
                         + "Run in place to the rhythm of the music.");
 
-        Activity activitySQLSqa = buildActivity("SQL Squats", physical, 4, "CIMG0061", null,
+        Activity activitySQLSqa = buildActivity("SQL Squats", acPhysical, 4, "CIMG0061", null,
                 "Do this as a challenge with your co-workers.  "
                         + "Try to see who can hold this pose the longest.");
 
-        Activity activityThrThiStr = buildActivity("Throughput Thigh Stretches", physical, 2,
+        Activity activityThrThiStr = buildActivity("Throughput Thigh Stretches", acPhysical, 2,
                 "CIMG0073", null, "While leading your next code review, "
                         + "get double the value by stretching those thighs and legs.");
 
-        Activity activityDebDun = buildActivity("Debugging Dunks", physical, 2, "CIMG0065", null,
+        Activity activityDebDun = buildActivity("Debugging Dunks", acPhysical, 2, "CIMG0065", null,
                 "Tone your arm while recycling trash around the office. "
                         + " Stand 3 or 4 feet away from the recycling bin, aim, and shoot!"
                         + " Challenge your qubemate for the 3 pointer.");
 
-        Activity activityComCli = buildActivity("Compile-time Climbs", physical, 2, "CIMG0069",
+        Activity activityComCli = buildActivity("Compile-time Climbs", acPhysical, 2, "CIMG0069",
                 "CIMG0070", "See you if can run up one stair and then down another in less time "
                         + "than one more build. "
                         + "Take the elevator while regression tests are running.");
 
-        Activity activityScaRoo = buildActivity("Scanning the Room, not your Code", wellness, 1,
+        Activity activityScaRoo = buildActivity("Scanning the Room, not your Code", acWellness, 1,
                 "CIMG0042", "CIMG0043", "Eyes that scan lines of code all day need a break.  "
                         + "Let your eyes scan around the edges of objects in the room.  "
                         + "Do this for 3 minutes -- or until someone notices.");
 
-        Activity activitySwaDiv = buildActivity("Swan Dives", physical, 3, "CIMG0071", null,
+        Activity activitySwaDiv = buildActivity("Swan Dives", acPhysical, 3, "CIMG0071", null,
                 "This is a hidden exercise gem inside your office's handicap bathroom.  "
                         + "Its a metal bar that you can use for a varity of stretches.  "
                         + "Try to dive but don't forget where your head is!");
 
-        Activity activityTecCru = buildActivity("Tech Crunches", physical, 4, "CIMG0126",
+        Activity activityTecCru = buildActivity("Tech Crunches", acPhysical, 4, "CIMG0126",
                 "CIMG0127", "Sit in your chair, and pull your legs up tight. "
                         + " As you push your legs back, imagine that you "
                         + "are ahead on your development sprint.");
 
-        Activity activityBrkPt = buildActivity("Breakpoint Balances", physical, 3, "CIMG0068",
+        Activity activityBrkPt = buildActivity("Breakpoint Balances", acPhysical, 3, "CIMG0068",
                 null, "Imagine that a soda can is a bug to be squashed. "
                         + " How long can you maintain your balance on top of it?");
 
@@ -220,6 +237,20 @@ public class Bootstrap implements ServletContextListener {
                 "Complete Linux Leaps 5 times in a row", activityLinLea, 5);
         Challenge challenge02 = buildChallenge("De-stressed Qbies",
                 "Complete Marketing Meditations 10 times", activityMarMed, 10);
+
+        // QUIZ
+        buildQuiz(acPhysical, " ", "Do u offer collections?", EnumFieldType.Checkbox);
+        buildQuiz(
+                acPhysical,
+                " ",
+                "Do you offer collection of aluminum, glass, and plastic containers for recycling?",
+                EnumFieldType.Checkbox);
+
+        buildQuiz(
+                acWellness,
+                " ",
+                "Do you offer collection of aluminum, glass, and plastic containers for recycling?",
+                EnumFieldType.InputNumber);
 
         // Badges earned
         buildUserBadge(user01, badgeMulTal);
@@ -315,6 +346,71 @@ public class Bootstrap implements ServletContextListener {
         session.save(timeZone);
 
         return timeZone;
+    }
+
+    protected OrganizationType buildOrganizationType(String name, String description) {
+        Criteria criteria = session.createCriteria(OrganizationType.class);
+        criteria.add(Restrictions.eq("name", name));
+        @SuppressWarnings("unchecked")
+        List<OrganizationType> existingRecords = criteria.list();
+
+        if (existingRecords.size() > 0) {
+            return existingRecords.get(0);
+        }
+
+        OrganizationType organizationType = new OrganizationType();
+
+        organizationType.setName(name);
+        organizationType.setDescription(description);
+        session.save(organizationType);
+
+        return organizationType;
+    }
+
+    protected Quiz buildQuiz(ActivityCategory activityCategory, String answer, String question,
+            EnumFieldType fieldType) {
+        Criteria criteria = session.createCriteria(Quiz.class);
+        criteria.add(Restrictions.eq("activityCategory", activityCategory));
+        criteria.add(Restrictions.eq("question", question));
+        @SuppressWarnings("unchecked")
+        List<Quiz> existingRecords = criteria.list();
+
+        if (existingRecords.size() > 0) {
+            return existingRecords.get(0);
+        }
+
+        Quiz quiz = new Quiz();
+
+        quiz.setActivityCategory(activityCategory);
+        quiz.setAnswer(answer);
+        quiz.setQuestion(question);
+        quiz.setFieldType(fieldType);
+
+        session.save(quiz);
+        return quiz;
+    }
+
+    protected OrganizationTypeActivity buildOrganizationTypeActivity(
+            OrganizationType organizationType, Activity activity) {
+        Criteria criteria = session.createCriteria(OrganizationTypeActivity.class);
+        criteria.add(Restrictions.eq("organizationType", organizationType));
+        criteria.add(Restrictions.eq("activity", activity));
+        @SuppressWarnings("unchecked")
+        List<OrganizationTypeActivity> existingRecords = criteria.list();
+
+        if (existingRecords.size() > 0) {
+            return existingRecords.get(0);
+        }
+
+        OrganizationTypeActivity orgTypeActivity = new OrganizationTypeActivity();
+
+        orgTypeActivity.setOrganizationType(organizationType);
+        orgTypeActivity.setActivity(activity);
+
+        organizationType.addActivity(orgTypeActivity);
+        session.flush();
+
+        return orgTypeActivity;
     }
 
     protected ActivityCategory buildActivityCategory(String name, String description) {

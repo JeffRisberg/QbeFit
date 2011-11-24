@@ -30,10 +30,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.incra.domain.OrganizationType;
+import com.incra.domain.TimeZone;
 import com.incra.domain.User;
+import com.incra.domain.propertyEditor.OrganizationTypePropertyEditor;
+import com.incra.domain.propertyEditor.TimeZonePropertyEditor;
 import com.incra.domain.propertyEditor.UserPropertyEditor;
 import com.incra.services.LevelService;
+import com.incra.services.OrganizationTypeService;
 import com.incra.services.PageFrameworkService;
+import com.incra.services.TimeZoneService;
 import com.incra.services.UserService;
 import com.incra.services.dto.MyUserDetails;
 
@@ -51,6 +57,10 @@ public class UserController implements ApplicationContextAware {
     @Autowired
     private UserService userService;
     @Autowired
+    private OrganizationTypeService organizationTypeService;
+    @Autowired
+    private TimeZoneService timeZoneService;
+    @Autowired
     private LevelService levelService;
     @Autowired
     private PageFrameworkService pageFrameworkService;
@@ -65,6 +75,10 @@ public class UserController implements ApplicationContextAware {
     @InitBinder
     protected void initBinder(WebDataBinder dataBinder) throws Exception {
         dataBinder.registerCustomEditor(User.class, new UserPropertyEditor(userService));
+        dataBinder
+                .registerCustomEditor(TimeZone.class, new TimeZonePropertyEditor(timeZoneService));
+        dataBinder.registerCustomEditor(OrganizationType.class, new OrganizationTypePropertyEditor(
+                organizationTypeService));
     }
 
     @RequestMapping(value = "/user/**")

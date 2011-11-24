@@ -17,8 +17,13 @@
 
 <c:if test="${not empty offerLogin}">
 <div class="login">
- Already a member?
- <a href="<c:url value="/home/login" />">Log In</a>
+<form:form>
+ User
+ <input type="text" name="user" />
+ Password
+ <input type="text" name="password" />
+ <input type="submit" value="Login" class="button">
+ </form:form>
 </div>
 </c:if>
 

@@ -55,9 +55,19 @@
     <put-attribute name="body" value="/WEB-INF/views/challenge/{1}.jsp" />
   </definition>
   
+  <definition name="organizationType/*" extends="standardLayout">
+    <put-attribute name="title" value="Organization Types" />
+    <put-attribute name="body" value="/WEB-INF/views/organizationType/{1}.jsp" />
+  </definition>
+  
   <definition name="history/*" extends="standardLayout">
     <put-attribute name="title" value="History" />
     <put-attribute name="body" value="/WEB-INF/views/history/{1}.jsp" />
+  </definition>
+  
+  <definition name="quiz/*" extends="standardLayout">
+    <put-attribute name="title" value="Quiz" />
+    <put-attribute name="body" value="/WEB-INF/views/quiz/{1}.jsp" />
   </definition>
   
 </tiles-definitions>

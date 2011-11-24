@@ -43,6 +43,9 @@
         <value>com.incra.domain.Level</value>
         <value>com.incra.domain.LogEntry</value>
         <value>com.incra.domain.LogEntryKey</value>
+        <value>com.incra.domain.OrganizationType</value>
+        <value>com.incra.domain.OrganizationTypeActivity</value>
+        <value>com.incra.domain.Quiz</value>       
         <value>com.incra.domain.TimeZone</value> 
         <value>com.incra.domain.User</value>     
         <value>com.incra.domain.UserActivity</value> 

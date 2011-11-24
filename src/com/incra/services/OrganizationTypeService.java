@@ -11,55 +11,55 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.incra.domain.TimeZone;
+import com.incra.domain.OrganizationType;
 
 /**
- * The <i>TimeZoneService</i> handles the Hibernate-session based updating of
- * TimeZone entities.
+ * The <i>OrganizationTypeService</i> handles the Hibernate-session based
+ * updating of OrganizationType entities.
  * 
  * @author Jeffrey Risberg
- * @since 01/24/11
+ * @since 09/10/11
  */
 @Service
 @Transactional
 @Repository
-public class TimeZoneService {
+public class OrganizationTypeService {
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @SuppressWarnings("unchecked")
-    public List<TimeZone> findEntityList() {
+    public List<OrganizationType> findEntityList() {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(TimeZone.class);
+        Criteria criteria = session.createCriteria(OrganizationType.class);
 
         return criteria.list();
     }
 
-    public TimeZone findEntityById(String id) {
+    public OrganizationType findEntityById(int id) {
         Session session = sessionFactory.getCurrentSession();
 
-        return (TimeZone) session.get(TimeZone.class, id);
+        return (OrganizationType) session.get(OrganizationType.class, id);
     }
 
-    public TimeZone findEntityByName(String name) {
+    public OrganizationType findEntityByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(TimeZone.class);
+        Criteria criteria = session.createCriteria(OrganizationType.class);
 
         criteria.add(Restrictions.eq("name", name));
 
-        return (TimeZone) criteria.uniqueResult();
+        return (OrganizationType) criteria.uniqueResult();
     }
 
-    public void save(TimeZone timeZone) {
+    public void save(OrganizationType organizationType) {
         Session session = sessionFactory.getCurrentSession();
 
-        session.saveOrUpdate(timeZone);
+        session.saveOrUpdate(organizationType);
     }
 
-    public void delete(TimeZone timeZone) {
+    public void delete(OrganizationType organizationType) {
         Session session = sessionFactory.getCurrentSession();
 
-        session.delete(timeZone);
+        session.delete(organizationType);
     }
 }
