@@ -98,25 +98,9 @@ public class HomeController {
 
     // LOGIN MANAGEMENT
 
-    /** Offer the login page, setting up dummy user to collect the form inputs */
-    @RequestMapping(value = "/home/login", method = RequestMethod.GET)
-    public ModelAndView login(HttpServletRequest httpRequest) {
-
-        User user = new User();
-        user.setPoints(initialUserPoints);
-
-        String errorFlag = httpRequest.getParameter("login_error");
-
-        ModelAndView modelAndView = new ModelAndView("home/login");
-        modelAndView.addObject("command", user);
-        modelAndView.addObject("isError", errorFlag != null);
-
-        return modelAndView;
-    }
-
-    /** After login is complete, we need to update the stats on the User object */
-    @RequestMapping(value = "/home/loginComplete")
-    public String loginComplete() {
+    /** Handle a request to log in, typically from the main screen */
+    @RequestMapping(value = "/home/login", method = RequestMethod.POST)
+    public String login(HttpServletRequest httpRequest) {
 
         User user = userService.getCurrentUser();
 
@@ -235,6 +219,15 @@ public class HomeController {
     public ModelAndView terms() {
 
         ModelAndView modelAndView = new ModelAndView("home/terms");
+        return modelAndView;
+    }
+
+    // SVG TEST SCREENS
+
+    @RequestMapping(value = "/home/svgTest", method = RequestMethod.GET)
+    public ModelAndView svgTest() {
+
+        ModelAndView modelAndView = new ModelAndView("home/svgTest");
         return modelAndView;
     }
 

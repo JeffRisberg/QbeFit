@@ -12,15 +12,13 @@
       <intercept-url pattern="/" access="permitAll()" />
       <intercept-url pattern="/home" access="permitAll()" />
       <intercept-url pattern="/home/index" access="permitAll()" />
-      <intercept-url pattern="/home/login" access="permitAll()" />
       <intercept-url pattern="/home/about" access="permitAll()" />
       <intercept-url pattern="/home/terms" access="permitAll()" />
       <intercept-url pattern="/user/register" access="permitAll()" />
       <intercept-url pattern="/resources/**" access="permitAll()" />      
       <intercept-url pattern="/**" access="isAuthenticated()" />
-      <form-login 
-         login-page="/home/login" 
-         default-target-url="/home/loginComplete"
+      <form-login         
+         default-target-url="/home/login"
          always-use-default-target="true"
          authentication-failure-url="/home/login?login_error=1" />
       <logout />

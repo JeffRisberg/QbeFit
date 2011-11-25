@@ -17,7 +17,8 @@
 
 <c:if test="${not empty offerLogin}">
 <div class="login">
-<form:form>
+<c:url var="loginUrl" value="/home/login"/>
+<form:form method="post" action="${loginUrl}">
  User
  <input type="text" name="user" />
  Password
