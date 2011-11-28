@@ -34,12 +34,12 @@ import com.incra.domain.Goal;
 import com.incra.domain.Level;
 import com.incra.domain.OrganizationType;
 import com.incra.domain.OrganizationTypeActivity;
-import com.incra.domain.Quiz;
+import com.incra.domain.Question;
 import com.incra.domain.TimeZone;
 import com.incra.domain.User;
 import com.incra.domain.UserBadge;
 import com.incra.domain.UserChallenge;
-import com.incra.domain.enums.EnumFieldType;
+import com.incra.domain.enums.QuestionType;
 
 /**
  * The <i>Bootstrap</i> class is a servletContextListener that initializes the
@@ -238,19 +238,11 @@ public class Bootstrap implements ServletContextListener {
         Challenge challenge02 = buildChallenge("De-stressed Qbies",
                 "Complete Marketing Meditations 10 times", activityMarMed, 10);
 
-        // QUIZ
-        buildQuiz(acPhysical, " ", "Do u offer collections?", EnumFieldType.Checkbox);
-        buildQuiz(
-                acPhysical,
-                " ",
-                "Do you offer collection of aluminum, glass, and plastic containers for recycling?",
-                EnumFieldType.Checkbox);
-
-        buildQuiz(
-                acWellness,
-                " ",
-                "Do you offer collection of aluminum, glass, and plastic containers for recycling?",
-                EnumFieldType.InputNumber);
+        // Questions
+        buildQuestion(goalCarFit, QuestionType.Checkbox, "Do you work out?");
+        buildQuestion(goalWeiLos, QuestionType.Checkbox, "Do you watch your diet?");
+        buildQuestion(goalWeiLos, QuestionType.Checkbox,
+                "Did you know that fortune cookies are good for you?");
 
         // Badges earned
         buildUserBadge(user01, badgeMulTal);
@@ -367,24 +359,22 @@ public class Bootstrap implements ServletContextListener {
         return organizationType;
     }
 
-    protected Quiz buildQuiz(ActivityCategory activityCategory, String answer, String question,
-            EnumFieldType fieldType) {
-        Criteria criteria = session.createCriteria(Quiz.class);
-        criteria.add(Restrictions.eq("activityCategory", activityCategory));
-        criteria.add(Restrictions.eq("question", question));
+    protected Question buildQuestion(Goal goal, QuestionType questionType, String text) {
+        Criteria criteria = session.createCriteria(Question.class);
+        criteria.add(Restrictions.eq("questionType", questionType));
+        criteria.add(Restrictions.eq("text", text));
         @SuppressWarnings("unchecked")
-        List<Quiz> existingRecords = criteria.list();
+        List<Question> existingRecords = criteria.list();
 
         if (existingRecords.size() > 0) {
             return existingRecords.get(0);
         }
 
-        Quiz quiz = new Quiz();
+        Question quiz = new Question();
 
-        quiz.setActivityCategory(activityCategory);
-        quiz.setAnswer(answer);
-        quiz.setQuestion(question);
-        quiz.setFieldType(fieldType);
+        quiz.setGoal(goal);
+        quiz.setQuestionType(questionType);
+        quiz.setText(text);
 
         session.save(quiz);
         return quiz;

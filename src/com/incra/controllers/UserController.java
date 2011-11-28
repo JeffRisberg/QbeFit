@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -13,12 +14,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,18 +26,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.incra.domain.Goal;
 import com.incra.domain.OrganizationType;
 import com.incra.domain.TimeZone;
 import com.incra.domain.User;
+import com.incra.domain.UserGoal;
+import com.incra.domain.propertyEditor.GoalPropertyEditor;
 import com.incra.domain.propertyEditor.OrganizationTypePropertyEditor;
 import com.incra.domain.propertyEditor.TimeZonePropertyEditor;
 import com.incra.domain.propertyEditor.UserPropertyEditor;
+import com.incra.services.GoalService;
 import com.incra.services.LevelService;
 import com.incra.services.OrganizationTypeService;
 import com.incra.services.PageFrameworkService;
 import com.incra.services.TimeZoneService;
+import com.incra.services.UserGoalService;
 import com.incra.services.UserService;
-import com.incra.services.dto.MyUserDetails;
 
 /**
  * The <i>UserController</i> controller defines operations on users, including
@@ -58,6 +58,10 @@ public class UserController implements ApplicationContextAware {
     private UserService userService;
     @Autowired
     private OrganizationTypeService organizationTypeService;
+    @Autowired
+    private GoalService goalService;
+    @Autowired
+    private UserGoalService userGoalService;
     @Autowired
     private TimeZoneService timeZoneService;
     @Autowired
@@ -79,6 +83,7 @@ public class UserController implements ApplicationContextAware {
                 .registerCustomEditor(TimeZone.class, new TimeZonePropertyEditor(timeZoneService));
         dataBinder.registerCustomEditor(OrganizationType.class, new OrganizationTypePropertyEditor(
                 organizationTypeService));
+        dataBinder.registerCustomEditor(Goal.class, new GoalPropertyEditor(goalService));
     }
 
     @RequestMapping(value = "/user/**")
@@ -88,9 +93,26 @@ public class UserController implements ApplicationContextAware {
 
     // REGISTRATION
 
-    @RequestMapping(value = "/user/register", method = RequestMethod.POST)
-    public String register(final @ModelAttribute("command") @Valid User user, BindingResult result,
-            Model model, HttpSession session) {
+    /**
+     * Offer the registration screen.
+     */
+    @RequestMapping(value = "/user/register", method = RequestMethod.GET)
+    public ModelAndView register() {
+
+        User user = new User();
+
+        ModelAndView modelAndView = new ModelAndView("user/register");
+        modelAndView.addObject("command", user);
+        return modelAndView;
+    }
+
+    /**
+     * Process the post from the registration screen. If successful, ask for
+     * information about user.
+     */
+    @RequestMapping(value = "/user/registerUpdate", method = RequestMethod.POST)
+    public String registerUpdate(final @ModelAttribute("command") @Valid User user,
+            BindingResult result, Model model, HttpSession session) {
 
         String password = user.getPassword();
         String confirmPassword = user.getConfirmPassword();
@@ -98,31 +120,102 @@ public class UserController implements ApplicationContextAware {
         if (password.equals(confirmPassword)) {
             String encPassword = passwordEncoder.encodePassword(password, null);
 
-            user.setPassword(encPassword);
-            user.setLevel(levelService.computeLevel(user.getPoints()));
-            user.setLoginCount(1);
-            user.setLastLoggedIn(new Date());
-            userService.save(user);
+            User curUser = userService.getCurrentUser();
 
-            // Perform Programmatic login
-            List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
-            authList.add(new GrantedAuthorityImpl("ROLE_USER"));
+            curUser.setFirstName(user.getFirstName());
+            curUser.setLastName(user.getLastName());
+            curUser.setEmail(user.getEmail());
+            curUser.setPassword(encPassword);
+            curUser.setLevel(levelService.computeLevel(user.getPoints()));
+            curUser.setLoginCount(1);
+            curUser.setLastLoggedIn(new Date());
+            curUser.setTemporary(false);
+            userService.save(curUser);
 
-            int userId = user.getId();
-            String fullName = user.getFirstName() + " " + user.getLastName();
-            UserDetails userDetails = new MyUserDetails(user.getEmail(), password, false, true,
-                    true, true, authList, userId, fullName, user.getEmail());
+            userService.performProgrammaticLogin(user);
 
-            SecurityContextHolder.getContext().setAuthentication(
-                    new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
-                            userDetails.getAuthorities()));
-
-            return "redirect:/home/index";
+            return "redirect:/user/aboutMe";
         } else {
             pageFrameworkService.setFlashMessage(session, "Passwords must match");
             pageFrameworkService.setIsRedirect(session, Boolean.TRUE);
-            return "redirect:/home/index";
+            return "redirect:/user/register";
         }
+    }
+
+    // INFORMATION GATHERING
+
+    /**
+     * Offer the aboutMe screen.
+     */
+    @RequestMapping(value = "/user/aboutMe", method = RequestMethod.GET)
+    public ModelAndView aboutMe() {
+
+        User user = userService.getCurrentUser();
+
+        List<OrganizationType> organizationTypeList = organizationTypeService.findEntityList();
+        List<Goal> goalList = goalService.findEntityList();
+
+        List<UserGoal> priorUserGoalList = userGoalService.findEntityList(user);
+
+        List<Boolean> selectedList = new ArrayList<Boolean>();
+        for (Goal goal : goalList) {
+            Integer goalId = goal.getId();
+            UserGoal priorUserGoal = getUserGoalForGoalId(priorUserGoalList, goalId);
+
+            if (priorUserGoal != null) {
+                selectedList.add(Boolean.TRUE);
+            } else {
+                selectedList.add(Boolean.FALSE);
+            }
+        }
+
+        ModelAndView modelAndView = new ModelAndView("user/aboutMe");
+        modelAndView.addObject("command", user);
+        modelAndView.addObject("organizationTypeList", organizationTypeList);
+        modelAndView.addObject("goalList", goalList);
+        modelAndView.addObject("selectedList", selectedList);
+
+        return modelAndView;
+    }
+
+    /**
+     * Process the post from the aboutMe screen, then continue to home screen.
+     */
+    @RequestMapping(value = "/user/aboutMeUpdate", method = RequestMethod.POST)
+    public String aboutMeUpdate(final @ModelAttribute("command") @Valid User user,
+            BindingResult result, Model model, HttpSession session, HttpServletRequest httpRequest) {
+
+        User curUser = userService.getCurrentUser();
+
+        List<Goal> goalList = goalService.findEntityList();
+        List<UserGoal> priorUserGoalList = userGoalService.findEntityList(curUser);
+
+        for (Goal goal : goalList) {
+            Integer goalId = goal.getId();
+            UserGoal priorUserGoal = getUserGoalForGoalId(priorUserGoalList, goalId);
+
+            if (httpRequest.getParameter("goal_" + goalId) != null) {
+                if (priorUserGoal == null) {
+                    UserGoal userGoal = new UserGoal();
+                    userGoal.setUser(curUser);
+                    userGoal.setGoal(goal);
+                    userGoal.setEffectivityStart(new Date());
+                    userGoalService.save(userGoal);
+                }
+            } else {
+                if (priorUserGoal != null) {
+                    priorUserGoal.setEffectivityEnd(new Date());
+                    userGoalService.save(priorUserGoal);
+                }
+            }
+        }
+
+        curUser.setOrganizationType(user.getOrganizationType());
+        curUser.setAboutMeInfoGathered(true);
+        curUser.setSplashScreenShown(true);
+        userService.save(curUser);
+
+        return "redirect:/home/index";
     }
 
     // ADMIN
@@ -212,5 +305,17 @@ public class UserController implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext arg0) throws BeansException {
         this.applicationContext = arg0;
+    }
+
+    /** Find the userGoal for a given goalId, from a list */
+    protected UserGoal getUserGoalForGoalId(List<UserGoal> userGoalList, Integer goalId) {
+        for (UserGoal userGoal : userGoalList) {
+            Goal goal = userGoal.getGoal();
+            Integer tmpGoalId = goal.getId();
+
+            if (userGoal.getEffectivityEnd() == null && tmpGoalId.equals(goalId))
+                return userGoal;
+        }
+        return null;
     }
 }

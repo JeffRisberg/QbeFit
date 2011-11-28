@@ -7,6 +7,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import com.incra.domain.User;
 @Repository
 public class LogEntryService {
 
+    protected static Logger logger = LoggerFactory.getLogger(LogEntryService.class);
+
     @Autowired
     private SessionFactory sessionFactory;
     @Autowired
@@ -35,6 +39,8 @@ public class LogEntryService {
     // BUSINESS LOGIC
 
     public LogEntry publish(String keyStr, User user, List<String> parameters) {
+        logger.warn("publishing " + keyStr + ", for user " + user);
+
         LogEntryKey key = logEntryKeyService.findEntityByName(keyStr);
         if (key == null) {
             key = new LogEntryKey(keyStr);

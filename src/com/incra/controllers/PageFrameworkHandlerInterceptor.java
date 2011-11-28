@@ -41,6 +41,11 @@ public class PageFrameworkHandlerInterceptor implements HandlerInterceptor {
         pageFrameworkService.setCurrentMenuItem(request);
 
         User user = userService.getCurrentUser();
+        if (user == null) {
+            user = userService.createTemporaryUser();
+
+            userService.performProgrammaticLogin(user);
+        }
 
         String pathInfo = request.getContextPath();
         String uri = request.getRequestURI();

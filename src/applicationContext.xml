@@ -45,10 +45,11 @@
         <value>com.incra.domain.LogEntryKey</value>
         <value>com.incra.domain.OrganizationType</value>
         <value>com.incra.domain.OrganizationTypeActivity</value>
-        <value>com.incra.domain.Quiz</value>       
+        <value>com.incra.domain.Question</value>       
         <value>com.incra.domain.TimeZone</value> 
         <value>com.incra.domain.User</value>     
         <value>com.incra.domain.UserActivity</value> 
+        <value>com.incra.domain.UserAnswer</value>
         <value>com.incra.domain.UserBadge</value>  
         <value>com.incra.domain.UserChallenge</value>  
         <value>com.incra.domain.UserGoal</value>

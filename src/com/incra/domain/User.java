@@ -43,6 +43,10 @@ public class User extends AbstractDomain implements Serializable {
     private Country country;
 
     @ManyToOne
+    @JoinColumn(name = "organizationType_id", nullable = true)
+    private OrganizationType organizationType;
+
+    @ManyToOne
     @JoinColumn(name = "level_id", nullable = true)
     private Level level;
 
@@ -76,13 +80,23 @@ public class User extends AbstractDomain implements Serializable {
 
     private int loginCount;
 
-    /** Constructor */
-    public User() {
-        this.userBadges = new ArrayList<UserBadge>();
-    }
+    private boolean aboutMeInfoGathered;
 
     @Column(nullable = true)
     private Date lastLoggedIn;
+
+    @Transient
+    private boolean temporary;
+
+    @Transient
+    private boolean splashScreenShown;
+
+    /** Constructor */
+    public User() {
+        this.userBadges = new ArrayList<UserBadge>();
+        this.temporary = false;
+        this.splashScreenShown = false;
+    }
 
     public int getId() {
         return id;
@@ -98,6 +112,14 @@ public class User extends AbstractDomain implements Serializable {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public OrganizationType getOrganizationType() {
+        return organizationType;
+    }
+
+    public void setOrganizationType(OrganizationType organizationType) {
+        this.organizationType = organizationType;
     }
 
     public Level getLevel() {
@@ -188,6 +210,14 @@ public class User extends AbstractDomain implements Serializable {
         this.locked = locked;
     }
 
+    public boolean isAboutMeInfoGathered() {
+        return aboutMeInfoGathered;
+    }
+
+    public void setAboutMeInfoGathered(boolean aboutMeInfoGathered) {
+        this.aboutMeInfoGathered = aboutMeInfoGathered;
+    }
+
     public int getLoginCount() {
         return loginCount;
     }
@@ -202,6 +232,22 @@ public class User extends AbstractDomain implements Serializable {
 
     public void setLastLoggedIn(Date lastLoggedIn) {
         this.lastLoggedIn = lastLoggedIn;
+    }
+
+    public boolean isTemporary() {
+        return temporary;
+    }
+
+    public void setTemporary(boolean temporary) {
+        this.temporary = temporary;
+    }
+
+    public boolean isSplashScreenShown() {
+        return splashScreenShown;
+    }
+
+    public void setSplashScreenShown(boolean splashScreenShown) {
+        this.splashScreenShown = splashScreenShown;
     }
 
     @Override

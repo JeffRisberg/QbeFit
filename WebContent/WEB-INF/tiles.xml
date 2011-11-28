@@ -15,6 +15,11 @@
 		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
 	</definition>
   
+  <definition name="accessDenied" extends="standardLayout">
+    <put-attribute name="title" value="X" />
+    <put-attribute name="body" value="/WEB-INF/views/accessDenied.jsp" />
+  </definition>
+  
   <definition name="logEntry/*" extends="standardLayout">
     <put-attribute name="title" value="Log Entries" />
     <put-attribute name="body" value="/WEB-INF/views/logEntry/{1}.jsp" />
@@ -23,6 +28,11 @@
   <definition name="home/*" extends="standardLayout">
     <put-attribute name="title" value="Welcome" />
     <put-attribute name="body" value="/WEB-INF/views/home/{1}.jsp" />
+  </definition>
+  
+  <definition name="administration/*" extends="standardLayout">
+    <put-attribute name="title" value="Admin" />
+    <put-attribute name="body" value="/WEB-INF/views/administration/{1}.jsp" />
   </definition>
   
   <definition name="level/*" extends="standardLayout">

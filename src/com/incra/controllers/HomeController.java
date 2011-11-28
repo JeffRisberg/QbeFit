@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,37 +69,56 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/")
-    public String special() {
+    public String root() {
         return "redirect:/home";
     }
 
-    // SESSION MANAGEMENT
+    @RequestMapping(value = "/accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
+    }
+
+    // PRIMARY SCREEN MANAGEMENT
 
     @RequestMapping(value = "/home/**", method = RequestMethod.GET)
-    public ModelAndView index() {
+    public ModelAndView index(HttpServletRequest httpRequest) {
 
         User user = userService.getCurrentUser();
 
-        if (user != null) {
+        if (user.isSplashScreenShown()) {
             return overview();
         }
 
-        // create a dummy user
-        user = new User();
-        user.setPoints(initialUserPoints);
-
         List<Activity> activities = activityService.findEntityList();
+        boolean errorFlag = httpRequest.getParameter("login_error") != null;
 
         ModelAndView modelAndView = new ModelAndView("home/index");
-        modelAndView.addObject("command", user);
         modelAndView.addObject("numActivities", activities.size());
-        modelAndView.addObject("offerLogin", Boolean.TRUE);
+        modelAndView.addObject("isError", errorFlag);
+
+        if (errorFlag == false) {
+            user.setSplashScreenShown(true);
+        }
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/home/tryItOut")
+    public String tryItOut() {
+        User user = userService.getCurrentUser();
+
+        if (user.isAboutMeInfoGathered()) {
+            return "redirect:/home/overview";
+        } else {
+            return "redirect:/user/aboutMe";
+        }
     }
 
     // LOGIN MANAGEMENT
 
-    /** Handle a request to log in, typically from the main screen */
+    /**
+     * Spring security forwards here after a successful login. Update the
+     * counts.
+     */
     @RequestMapping(value = "/home/login", method = RequestMethod.POST)
     public String login(HttpServletRequest httpRequest) {
 
@@ -117,6 +137,7 @@ public class HomeController {
     public ModelAndView overview() {
 
         User user = userService.getCurrentUser();
+
         List<TrackSummaryRow> trackSummaryRowList = new ArrayList<TrackSummaryRow>();
         List<TrackSummaryColumn> trackSummaryColumnList = new ArrayList<TrackSummaryColumn>();
 
@@ -158,10 +179,12 @@ public class HomeController {
         }
 
         ModelAndView modelAndView = new ModelAndView("home/overview");
-        modelAndView.addObject("userName", user.getFirstName() + " " + user.getLastName());
-        modelAndView.addObject("points", user.getPoints());
-        modelAndView.addObject("level", user.getLevel());
-        modelAndView.addObject("userBadges", user.getUserBadges());
+        if (!user.isTemporary()) {
+            modelAndView.addObject("userName", user.getFirstName() + " " + user.getLastName());
+            modelAndView.addObject("points", user.getPoints());
+            modelAndView.addObject("level", user.getLevel());
+            modelAndView.addObject("userBadges", user.getUserBadges());
+        }
         modelAndView.addObject("trackSummaryColumnList", trackSummaryColumnList);
         modelAndView.addObject("trackSummaryRowList", trackSummaryRowList);
         modelAndView.addObject("goalList", goalList);
@@ -224,8 +247,11 @@ public class HomeController {
 
     // SVG TEST SCREENS
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/home/svgTest", method = RequestMethod.GET)
     public ModelAndView svgTest() {
+
+        System.out.println("running svgTest");
 
         ModelAndView modelAndView = new ModelAndView("home/svgTest");
         return modelAndView;

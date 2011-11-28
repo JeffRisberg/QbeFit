@@ -18,8 +18,8 @@
 </div>
 
 <img src="<c:url value="/resources/images/exerciseAtDesk.jpg" />" 
-   style="width: 500px; margin-left: 150px;">
-<br>
-<br>
-<a href="<c:url value="/quiz" />">Try it out!</a>
+   style="width: 500px; margin-left: 150px; margin: 10px 0px;">
 
+<div style="margin: 20px 0px; padding: 5px; background: #eee; font-size: 20px;">
+<a href="<c:url value="/home/tryItOut" />">Try it out!</a>
+</div>
