@@ -1,7 +1,7 @@
 package com.incra.domain;
 
 /**
- * The <i>UserAnswer</i> entity...
+ * The <i>UserAnswer</i> entity holds the answer submitted by one user for one question.
  * 
  * @author Jeff Risberg
  * @since 11/25/11
