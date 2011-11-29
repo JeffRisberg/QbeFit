@@ -5,7 +5,7 @@
 
 <div style="float: left;">
 <a href="<c:url value="/home" />">
-  <img src="/QbeFit/resources/images/logo180x64.png" border="0" />
+  <img src="/QbeFit/resources/images/logo180x64.png" width="180" height="64" border="0" />
 </a>
 </div>
 

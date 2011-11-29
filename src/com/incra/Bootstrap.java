@@ -98,8 +98,8 @@ public class Bootstrap implements ServletContextListener {
                 "A government agency, or worker within a government agency");
 
         // Activity Category seeds
-        ActivityCategory acPhysical = buildActivityCategory("Physical", "1Desc");
-        ActivityCategory acWellness = buildActivityCategory("Wellness", "2Desc");
+        ActivityCategory acPhysical = buildActivityCategory("Physical", "Physical", "1Desc");
+        ActivityCategory acWellness = buildActivityCategory("Wellness", "Wellness", "2Desc");
 
         // Goal seeds
         Goal goalCarFit = buildGoal("Cardio Fit", "Take care of that ticker!");
@@ -514,30 +514,7 @@ public class Bootstrap implements ServletContextListener {
         return organizationType;
     }
 
-    protected OrganizationTypeActivity buildOrganizationTypeActivity(
-            OrganizationType organizationType, Activity activity) {
-        Criteria criteria = session.createCriteria(OrganizationTypeActivity.class);
-        criteria.add(Restrictions.eq("organizationType", organizationType));
-        criteria.add(Restrictions.eq("activity", activity));
-        @SuppressWarnings("unchecked")
-        List<OrganizationTypeActivity> existingRecords = criteria.list();
-
-        if (existingRecords.size() > 0) {
-            return existingRecords.get(0);
-        }
-
-        OrganizationTypeActivity orgTypeActivity = new OrganizationTypeActivity();
-
-        orgTypeActivity.setOrganizationType(organizationType);
-        orgTypeActivity.setActivity(activity);
-
-        organizationType.addActivity(orgTypeActivity);
-        session.flush();
-
-        return orgTypeActivity;
-    }
-
-    protected ActivityCategory buildActivityCategory(String name, String description) {
+    protected ActivityCategory buildActivityCategory(String name, String label, String description) {
         Criteria criteria = session.createCriteria(ActivityCategory.class);
         criteria.add(Restrictions.eq("name", name));
         @SuppressWarnings("unchecked")
@@ -550,10 +527,30 @@ public class Bootstrap implements ServletContextListener {
         ActivityCategory activityCategory = new ActivityCategory();
 
         activityCategory.setName(name);
+        activityCategory.setLabel(label);
         activityCategory.setDescription(description);
         session.save(activityCategory);
 
         return activityCategory;
+    }
+
+    protected Goal buildGoal(String name, String description) {
+        Criteria criteria = session.createCriteria(Goal.class);
+        criteria.add(Restrictions.eq("name", name));
+        @SuppressWarnings("unchecked")
+        List<Goal> existingRecords = criteria.list();
+
+        if (existingRecords.size() > 0) {
+            return existingRecords.get(0);
+        }
+
+        Goal goal = new Goal();
+
+        goal.setName(name);
+        goal.setDescription(description);
+        session.save(goal);
+
+        return goal;
     }
 
     protected Activity buildActivity(String name, ActivityCategory activityCategory,
@@ -578,6 +575,52 @@ public class Bootstrap implements ServletContextListener {
         session.save(activity);
 
         return activity;
+    }
+
+    protected OrganizationTypeActivity buildOrganizationTypeActivity(
+            OrganizationType organizationType, Activity activity) {
+        Criteria criteria = session.createCriteria(OrganizationTypeActivity.class);
+        criteria.add(Restrictions.eq("organizationType", organizationType));
+        criteria.add(Restrictions.eq("activity", activity));
+        @SuppressWarnings("unchecked")
+        List<OrganizationTypeActivity> existingRecords = criteria.list();
+
+        if (existingRecords.size() > 0) {
+            return existingRecords.get(0);
+        }
+
+        OrganizationTypeActivity orgTypeActivity = new OrganizationTypeActivity();
+
+        orgTypeActivity.setOrganizationType(organizationType);
+        orgTypeActivity.setActivity(activity);
+
+        organizationType.addActivity(orgTypeActivity);
+        session.flush();
+
+        return orgTypeActivity;
+    }
+
+    protected GoalActivity buildGoalActivity(Goal goal, Activity activity, int multiplier) {
+        Criteria criteria = session.createCriteria(GoalActivity.class);
+        criteria.add(Restrictions.eq("goal", goal));
+        criteria.add(Restrictions.eq("activity", activity));
+        @SuppressWarnings("unchecked")
+        List<GoalActivity> existingRecords = criteria.list();
+
+        if (existingRecords.size() > 0) {
+            return existingRecords.get(0);
+        }
+
+        GoalActivity goalActivity = new GoalActivity();
+
+        goalActivity.setGoal(goal);
+        goalActivity.setActivity(activity);
+        goalActivity.setMultiplier(multiplier);
+
+        goal.addActivity(goalActivity);
+        session.flush();
+
+        return goalActivity;
     }
 
     protected Badge buildBadge(String name, String icon, String description) {
@@ -621,48 +664,6 @@ public class Bootstrap implements ServletContextListener {
         session.save(level);
 
         return level;
-    }
-
-    protected Goal buildGoal(String name, String description) {
-        Criteria criteria = session.createCriteria(Goal.class);
-        criteria.add(Restrictions.eq("name", name));
-        @SuppressWarnings("unchecked")
-        List<Goal> existingRecords = criteria.list();
-
-        if (existingRecords.size() > 0) {
-            return existingRecords.get(0);
-        }
-
-        Goal goal = new Goal();
-
-        goal.setName(name);
-        goal.setDescription(description);
-        session.save(goal);
-
-        return goal;
-    }
-
-    protected GoalActivity buildGoalActivity(Goal goal, Activity activity, int multiplier) {
-        Criteria criteria = session.createCriteria(GoalActivity.class);
-        criteria.add(Restrictions.eq("goal", goal));
-        criteria.add(Restrictions.eq("activity", activity));
-        @SuppressWarnings("unchecked")
-        List<GoalActivity> existingRecords = criteria.list();
-
-        if (existingRecords.size() > 0) {
-            return existingRecords.get(0);
-        }
-
-        GoalActivity goalActivity = new GoalActivity();
-
-        goalActivity.setGoal(goal);
-        goalActivity.setActivity(activity);
-        goalActivity.setMultiplier(multiplier);
-
-        goal.addActivity(goalActivity);
-        session.flush();
-
-        return goalActivity;
     }
 
     protected Challenge buildChallenge(String name, String description, Activity activity,

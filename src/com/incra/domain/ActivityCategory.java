@@ -38,6 +38,9 @@ public class ActivityCategory extends AbstractDomain implements Serializable {
     @Size(min = 2, max = 250, message = "The name must be at least two chars long.")
     private String name;
 
+    @Size(min = 2, max = 18)
+    private String label;
+
     @Size(min = 0, max = 255, message = "The description must be less than 255 chars long.")
     private String description;
 
@@ -63,6 +66,14 @@ public class ActivityCategory extends AbstractDomain implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getDescription() {
