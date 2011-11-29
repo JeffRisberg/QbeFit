@@ -22,6 +22,8 @@ import com.incra.services.ActivityCategoryService;
 import com.incra.services.ActivityService;
 
 /**
+ * The <i>LeaderboardController</i> is under development.
+ * 
  * @author Jeff Risberg
  * @since 11/20/11
  */

@@ -5,7 +5,7 @@ package com.incra.domain;
  * that a quiz can be generated for a user, with the questions drawn from the user's goals.
  * 
  * @author Jeff Risberg
- * @since 11/13/11
+ * @since 11/23/11
  */
 import java.io.Serializable;
 
@@ -38,6 +38,10 @@ public class Question extends AbstractDomain implements Serializable {
     private String text;
 
     private QuestionType questionType;
+    private int points;
+
+    @Size(min = 0, max = 1000)
+    private String answer;
 
     public int getId() {
         return id;
@@ -71,6 +75,22 @@ public class Question extends AbstractDomain implements Serializable {
         this.questionType = questionType;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(text);
@@ -88,7 +108,8 @@ public class Question extends AbstractDomain implements Serializable {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("Question[text=" + text);
+        sb.append("Question[text=").append(text);
+        sb.append(", points=").append(points);
         sb.append("]");
         return sb.toString();
     }

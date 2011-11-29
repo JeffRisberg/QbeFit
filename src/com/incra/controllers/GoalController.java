@@ -1,16 +1,14 @@
 package com.incra.controllers;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,32 +21,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.incra.domain.Goal;
-import com.incra.domain.User;
 import com.incra.domain.UserGoal;
 import com.incra.domain.propertyEditor.GoalPropertyEditor;
 import com.incra.services.GoalService;
 import com.incra.services.PageFrameworkService;
-import com.incra.services.UserGoalService;
-import com.incra.services.UserService;
 
 /**
- * The <i>GoalController</i> controller defines operations on goals, including
- * selection.
+ * The <i>GoalController</i> controller defines admin operations on goals.
  * 
  * @author Jeffrey Risberg
  * @since 09/10/11
  */
+@Secured("ROLE_ADMIN")
 @Controller
 public class GoalController {
 
     protected static Logger logger = LoggerFactory.getLogger(GoalController.class);
 
     @Autowired
-    private UserService userService;
-    @Autowired
     private GoalService goalService;
-    @Autowired
-    private UserGoalService userGoalService;
     @Autowired
     private PageFrameworkService pageFrameworkService;
 
@@ -64,64 +55,6 @@ public class GoalController {
     public String index() {
         return "redirect:/goal/list";
     }
-
-    // USER
-
-    @RequestMapping(value = "/goal/select")
-    public ModelAndView select(Object criteria) {
-
-        User user = userService.getCurrentUser();
-        List<Goal> goalList = goalService.findEntityList();
-        List<UserGoal> priorUserGoalList = userGoalService.findEntityList(user);
-
-        List<Boolean> selectedList = new ArrayList<Boolean>();
-        for (Goal goal : goalList) {
-            Integer goalId = goal.getId();
-            UserGoal priorUserGoal = getUserGoalForGoalId(priorUserGoalList, goalId);
-
-            if (priorUserGoal != null) {
-                selectedList.add(Boolean.TRUE);
-            } else {
-                selectedList.add(Boolean.FALSE);
-            }
-        }
-
-        ModelAndView modelAndView = new ModelAndView("goal/select");
-        modelAndView.addObject("goalList", goalList);
-        modelAndView.addObject("selectedList", selectedList);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/goal/selectUpdate", method = RequestMethod.POST)
-    public String selectUpdate(HttpServletRequest httpRequest) {
-
-        User user = userService.getCurrentUser();
-        List<Goal> goalList = goalService.findEntityList();
-        List<UserGoal> priorUserGoalList = userGoalService.findEntityList(user);
-
-        for (Goal goal : goalList) {
-            Integer goalId = goal.getId();
-            UserGoal priorUserGoal = getUserGoalForGoalId(priorUserGoalList, goalId);
-
-            if (httpRequest.getParameter("goal_" + goalId) != null) {
-                if (priorUserGoal == null) {
-                    UserGoal userGoal = new UserGoal();
-                    userGoal.setUser(user);
-                    userGoal.setGoal(goal);
-                    userGoal.setEffectivityStart(new Date());
-                    userGoalService.save(userGoal);
-                }
-            } else {
-                if (priorUserGoal != null) {
-                    priorUserGoal.setEffectivityEnd(new Date());
-                    userGoalService.save(priorUserGoal);
-                }
-            }
-        }
-        return "redirect:/home";
-    }
-
-    // ADMIN
 
     @RequestMapping(value = "/goal/list")
     public ModelAndView list(Object criteria) {

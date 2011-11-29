@@ -14,7 +14,7 @@
   Sign up for desk-ercises delivered daily to your inbox.
 </div>
 
-<c:url var="saveUrl" value="/user/registerUpdate"/>
+<c:url var="saveUrl" value="/register/update"/>
 <form:form method="post" action="${saveUrl}">
 
 <table style="width:500px; margin-left:45px; margin-bottom:15px;" class="reg">

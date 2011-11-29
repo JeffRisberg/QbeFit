@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.incra.domain.User;
-import com.incra.services.ActivityService;
-import com.incra.services.EventService;
-import com.incra.services.UserActivityService;
 import com.incra.services.UserService;
 
 /**
@@ -37,12 +34,6 @@ public class HistoryController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private ActivityService activityService;
-    @Autowired
-    private UserActivityService userActivityService;
-    @Autowired
-    private EventService eventService;
 
     public HistoryController() {
     }
@@ -74,7 +65,7 @@ public class HistoryController {
         Map<String, Object> json = new HashMap<String, Object>();
         List<Object> seriesList = new ArrayList<Object>();
 
-        User user = userService.getCurrentUser();
+        // User user = userService.getCurrentUser();
 
         json.put("series", seriesList);
 
@@ -104,7 +95,7 @@ public class HistoryController {
         Map<String, Object> json = new HashMap<String, Object>();
         List<Object> seriesList = new ArrayList<Object>();
 
-        User user = userService.getCurrentUser();
+        // User user = userService.getCurrentUser();
 
         json.put("series", seriesList);
 

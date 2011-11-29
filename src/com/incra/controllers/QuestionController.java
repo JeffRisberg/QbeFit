@@ -24,10 +24,9 @@ import com.incra.domain.Question;
 import com.incra.services.GoalService;
 import com.incra.services.PageFrameworkService;
 import com.incra.services.QuestionService;
-import com.incra.services.UserService;
 
 /**
- * The <i>QuestionController</i> defines operations on questions
+ * The <i>QuestionController</i> implements the admin functions on Questions.
  * 
  * @author Jeffrey Risberg
  * @since 11/26/11
@@ -37,8 +36,6 @@ public class QuestionController {
 
     protected static Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
-    @Autowired
-    private UserService userService;
     @Autowired
     private GoalService goalService;
     @Autowired

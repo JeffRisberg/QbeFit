@@ -10,15 +10,9 @@
     
     <http use-expressions="true" access-denied-page="/accessDenied">
       <intercept-url pattern="/" access="permitAll()" />
-      <intercept-url pattern="/home" access="permitAll()" />     
-      <intercept-url pattern="/home/index" access="permitAll()" />
-      <intercept-url pattern="/home/overview" access="permitAll()" />
-      <intercept-url pattern="/home/about" access="permitAll()" />
-      <intercept-url pattern="/home/terms" access="permitAll()" />      
-      <intercept-url pattern="/user/register" access="permitAll()" />
-      <intercept-url pattern="/user/registerUpdate" access="permitAll()" />
-      <intercept-url pattern="/user/aboutMe" access="permitAll()" />
-      <intercept-url pattern="/user/aboutMeUpdate" access="permitAll()" />
+      <intercept-url pattern="/home/**" access="permitAll()" />             
+      <intercept-url pattern="/register/**" access="permitAll()" />     
+      <intercept-url pattern="/activitySelect/**" access="permitAll()" />     
       <intercept-url pattern="/resources/**" access="permitAll()" />      
       <intercept-url pattern="/**" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" />
       <form-login         

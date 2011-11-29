@@ -31,6 +31,7 @@ import com.incra.domain.Badge;
 import com.incra.domain.Challenge;
 import com.incra.domain.Country;
 import com.incra.domain.Goal;
+import com.incra.domain.GoalActivity;
 import com.incra.domain.Level;
 import com.incra.domain.OrganizationType;
 import com.incra.domain.OrganizationTypeActivity;
@@ -100,84 +101,247 @@ public class Bootstrap implements ServletContextListener {
         ActivityCategory acPhysical = buildActivityCategory("Physical", "1Desc");
         ActivityCategory acWellness = buildActivityCategory("Wellness", "2Desc");
 
+        // Goal seeds
+        Goal goalCarFit = buildGoal("Cardio Fit", "Take care of that ticker!");
+        Goal goalWeiLos = buildGoal("Weight Loss", "Reduce by a size or two");
+        Goal goalChoRed = buildGoal("Cholestrol Reduction", "Keep those arteries clean!");
+        Goal goalFatBur = buildGoal("Fat Burn", "Take off those extra pounds");
+        Goal goalMusTon = buildGoal("Muscle Tone", "Firm up those muscles");
+        Goal goalOveFit = buildGoal("Overall Fitness",
+                "Start to feel and look like a healthy person");
+
         // Activity seeds
-        Activity activityDevDip = buildActivity("Developer Dips", acPhysical, 3, "CIMG0002",
-                "CIMG0001",
+        Activity activity;
+
+        activity = buildActivity("Developer Dips", acPhysical, 3, "CIMG0002", "CIMG0001",
                 "You can do this sitting at your desk.  Place your hands on your armrests "
                         + "or the sides of your chair.  Push up using your upper arms. "
                         + "Count to ten.  Win points for sucking in your gut.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 1);
+        this.buildGoalActivity(goalWeiLos, activity, 1);
+        this.buildGoalActivity(goalFatBur, activity, 1);
+        this.buildGoalActivity(goalMusTon, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 2);
 
-        Activity activityLapLif = buildActivity("Laptop Lifts", acPhysical, 2, "CIMG0148",
-                "CIMG0145", "Take that laptop and lift it to the sky! "
+        activity = buildActivity("Laptop Lifts", acPhysical, 2, "CIMG0148", "CIMG0145",
+                "Take that laptop and lift it to the sky! "
                         + " Bonus points for 17-inch and larger monitors.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 1);
+        this.buildGoalActivity(goalWeiLos, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 1);
 
-        Activity activityNCNap = buildActivity("Native Code Naps", acWellness, 1, "CIMG0077", null,
+        activity = buildActivity("Native Code Naps", acWellness, 1, "CIMG0077", null,
                 "The exercise value of naps is underrated in today's world.  "
                         + "Your computer gets downtime, why shouldn't you?");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 2);
+        this.buildGoalActivity(goalOveFit, activity, 1);
 
-        Activity activitySalStr = buildActivity("Sales Stretches", acPhysical, 3, "CIMG0055",
-                "CIMG0056", "Give yourself a boost to reach that quota. "
+        activity = buildActivity("Sales Stretches", acPhysical, 3, "CIMG0055", "CIMG0056",
+                "Give yourself a boost to reach that quota. "
                         + "Stretch out your right leg to the side, "
                         + "try to reach your toes. Switch sides.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 2);
+        this.buildGoalActivity(goalWeiLos, activity, 3);
+        this.buildGoalActivity(goalOveFit, activity, 1);
 
-        Activity activityMarMed = buildActivity("Marketing Meditations", acWellness, 2, "CIMG0057",
-                null, "Find a quiet location with a comfortable seat.  "
+        activity = buildActivity("Marketing Meditations", acWellness, 2, "CIMG0057", null,
+                "Find a quiet location with a comfortable seat.  "
                         + "Relax your mind and remember to take a deep breath in and out.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalChoRed, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 2);
 
-        Activity activityLinLea = buildActivity("Linux Leaps", acPhysical, 2, "CIMG0058",
-                "CIMG0059", "Release your inner ninja by finding an object that you can leap over "
+        activity = buildActivity("Linux Leaps", acPhysical, 2, "CIMG0058", "CIMG0059",
+                "Release your inner ninja by finding an object that you can leap over "
                         + "(Caution: Advanced qubies only!)");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 1);
+        this.buildGoalActivity(goalWeiLos, activity, 1);
+        this.buildGoalActivity(goalFatBur, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 1);
+        this.buildGoalActivity(goalMusTon, activity, 1);
 
-        Activity activityPHPPla = buildActivity("PHP Planks", acPhysical, 4, "CIMG0884", null,
+        activity = buildActivity("PHP Planks", acPhysical, 4, "CIMG0884", null,
                 "Planking is hard work.  This is an unexpectedly difficult abdominal exercise. "
                         + "Maintain the position for one full minute. "
                         + " Do this ten times.  Take a picture and email it to us.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 1);
+        this.buildGoalActivity(goalFatBur, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 1);
 
-        Activity activityJavDet = buildActivity("Java Detox", acWellness, 1, "CIMG0062", null,
+        activity = buildActivity("Java Detox", acWellness, 1, "CIMG0062", null,
                 "Skip the coffee or soda machine and toast your colleagues with a glass of water.  "
                         + "Water is great for weight loss, so sometimes you might "
                         + "think you are hungry when you actually are thirsty.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 1);
 
-        Activity activityRunRai = buildActivity("Run on Rails", acPhysical, 3, "CIMG0060", null,
+        activity = buildActivity("Run on Rails", acPhysical, 3, "CIMG0060", null,
                 "Find some funky music and a sturdy office desk.  Hop on the desk.  "
                         + "Run in place to the rhythm of the music.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 1);
+        this.buildGoalActivity(goalWeiLos, activity, 1);
+        this.buildGoalActivity(goalChoRed, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 1);
+        this.buildGoalActivity(goalMusTon, activity, 1);
 
-        Activity activitySQLSqa = buildActivity("SQL Squats", acPhysical, 4, "CIMG0061", null,
+        activity = buildActivity("SQL Squats", acPhysical, 4, "CIMG0061", null,
                 "Do this as a challenge with your co-workers.  "
                         + "Try to see who can hold this pose the longest.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 1);
+        this.buildGoalActivity(goalWeiLos, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 2);
 
-        Activity activityThrThiStr = buildActivity("Throughput Thigh Stretches", acPhysical, 2,
-                "CIMG0073", null, "While leading your next code review, "
+        activity = buildActivity("Throughput Thigh Stretches", acPhysical, 2, "CIMG0073", null,
+                "While leading your next code review, "
                         + "get double the value by stretching those thighs and legs.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalOveFit, activity, 1);
 
-        Activity activityDebDun = buildActivity("Debugging Dunks", acPhysical, 2, "CIMG0065", null,
+        activity = buildActivity("Debugging Dunks", acPhysical, 2, "CIMG0065", null,
                 "Tone your arm while recycling trash around the office. "
                         + " Stand 3 or 4 feet away from the recycling bin, aim, and shoot!"
                         + " Challenge your qubemate for the 3 pointer.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalWeiLos, activity, 2);
+        this.buildGoalActivity(goalFatBur, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 1);
 
-        Activity activityComCli = buildActivity("Compile-time Climbs", acPhysical, 2, "CIMG0069",
-                "CIMG0070", "See you if can run up one stair and then down another in less time "
+        activity = buildActivity("Compile-time Climbs", acPhysical, 2, "CIMG0069", "CIMG0070",
+                "See you if can run up one stair and then down another in less time "
                         + "than one more build. "
                         + "Take the elevator while regression tests are running.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 1);
+        this.buildGoalActivity(goalWeiLos, activity, 1);
+        this.buildGoalActivity(goalFatBur, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 1);
+        this.buildGoalActivity(goalMusTon, activity, 1);
 
-        Activity activityScaRoo = buildActivity("Scanning the Room, not your Code", acWellness, 1,
-                "CIMG0042", "CIMG0043", "Eyes that scan lines of code all day need a break.  "
+        activity = buildActivity("Scanning the Room, not your Code", acWellness, 1, "CIMG0042",
+                "CIMG0043", "Eyes that scan lines of code all day need a break.  "
                         + "Let your eyes scan around the edges of objects in the room.  "
                         + "Do this for 3 minutes -- or until someone notices.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalOveFit, activity, 1);
 
-        Activity activitySwaDiv = buildActivity("Swan Dives", acPhysical, 3, "CIMG0071", null,
+        activity = buildActivity("Swan Dives", acPhysical, 3, "CIMG0071", null,
                 "This is a hidden exercise gem inside your office's handicap bathroom.  "
-                        + "Its a metal bar that you can use for a varity of stretches.  "
+                        + "There's a metal bar that you can use for a variety of stretches.  "
                         + "Try to dive but don't forget where your head is!");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 1);
+        this.buildGoalActivity(goalFatBur, activity, 1);
+        this.buildGoalActivity(goalOveFit, activity, 2);
 
-        Activity activityTecCru = buildActivity("Tech Crunches", acPhysical, 4, "CIMG0126",
-                "CIMG0127", "Sit in your chair, and pull your legs up tight. "
+        activity = buildActivity("Tech Crunches", acPhysical, 4, "CIMG0126", "CIMG0127",
+                "Sit in your chair, and pull your legs up tight. "
                         + " As you push your legs back, imagine that you "
                         + "are ahead on your development sprint.");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalCarFit, activity, 2);
+        this.buildGoalActivity(goalOveFit, activity, 1);
+        this.buildGoalActivity(goalMusTon, activity, 1);
 
-        Activity activityBrkPt = buildActivity("Breakpoint Balances", acPhysical, 3, "CIMG0068",
-                null, "Imagine that a soda can is a bug to be squashed. "
+        activity = buildActivity("Breakpoint Balances", acPhysical, 3, "CIMG0068", null,
+                "Imagine that a soda can is a bug to be squashed. "
                         + " How long can you maintain your balance on top of it?");
+        this.buildOrganizationTypeActivity(otIndividual, activity);
+        this.buildOrganizationTypeActivity(otSmallMedCorp, activity);
+        this.buildOrganizationTypeActivity(otBigCorp, activity);
+        this.buildOrganizationTypeActivity(otSchoolDist, activity);
+        this.buildOrganizationTypeActivity(otSchool, activity);
+        this.buildOrganizationTypeActivity(otGovernment, activity);
+        this.buildGoalActivity(goalOveFit, activity, 2);
+        this.buildGoalActivity(goalMusTon, activity, 1);
 
         // Badge seeds
         Badge badgeLifter = buildBadge("Laptop Lifter", "/badge/lifter.jpg",
@@ -207,14 +371,17 @@ public class Bootstrap implements ServletContextListener {
         Level levelSuperstar = buildLevel("Superstar", "a", 500, "/level/superstar.jpg",
                 "Your star is shining brightly!");
 
-        // Goal seeds
-        Goal goalCarFit = buildGoal("Cardio Fit", "Take care of that ticker!");
-        Goal goalWeiLos = buildGoal("Weight Loss", "Reduce by a size or two");
-        Goal goalChoRed = buildGoal("Cholestrol Reduction", "Keep those arteries clean!");
-        Goal goalFatBur = buildGoal("Fat Burn", "Take off those extra pounds");
-        Goal goalMusTon = buildGoal("Muscle Tone", "Firm up those muscles");
-        Goal goalOveFit = buildGoal("Overall Fitness",
-                "Start to feel and look like a healthy person");
+        // Questions
+        buildQuestion(goalCarFit, QuestionType.Checkbox, "Do you work out?", 5, "  ");
+        buildQuestion(goalWeiLos, QuestionType.Checkbox, "Do you watch your diet?", 5, "  ");
+        buildQuestion(goalWeiLos, QuestionType.Checkbox,
+                "Did you know that fortune cookies are good for you?", 2, "  ");
+
+        // Challenges
+        Challenge challenge01 = buildChallenge("Desk Hoppers",
+                "Complete Linux Leaps 5 times in a row", activity, 5);
+        Challenge challenge02 = buildChallenge("De-stressed Qbies",
+                "Complete Marketing Meditations 10 times", activity, 10);
 
         // Users
         User user01 = buildUser("admin@qbefit.com", "QbeFit", "Admin", "123456", timeZonePST, 26,
@@ -231,18 +398,6 @@ public class Bootstrap implements ServletContextListener {
                 levelNewbie, false);
         User user07 = buildUser("arianna@gmail.com", "Arianna", "Rockmore", "123456", timeZonePST,
                 25, levelJourneyman, false);
-
-        // Challenges
-        Challenge challenge01 = buildChallenge("Desk Hoppers",
-                "Complete Linux Leaps 5 times in a row", activityLinLea, 5);
-        Challenge challenge02 = buildChallenge("De-stressed Qbies",
-                "Complete Marketing Meditations 10 times", activityMarMed, 10);
-
-        // Questions
-        buildQuestion(goalCarFit, QuestionType.Checkbox, "Do you work out?");
-        buildQuestion(goalWeiLos, QuestionType.Checkbox, "Do you watch your diet?");
-        buildQuestion(goalWeiLos, QuestionType.Checkbox,
-                "Did you know that fortune cookies are good for you?");
 
         // Badges earned
         buildUserBadge(user01, badgeMulTal);
@@ -357,27 +512,6 @@ public class Bootstrap implements ServletContextListener {
         session.save(organizationType);
 
         return organizationType;
-    }
-
-    protected Question buildQuestion(Goal goal, QuestionType questionType, String text) {
-        Criteria criteria = session.createCriteria(Question.class);
-        criteria.add(Restrictions.eq("questionType", questionType));
-        criteria.add(Restrictions.eq("text", text));
-        @SuppressWarnings("unchecked")
-        List<Question> existingRecords = criteria.list();
-
-        if (existingRecords.size() > 0) {
-            return existingRecords.get(0);
-        }
-
-        Question quiz = new Question();
-
-        quiz.setGoal(goal);
-        quiz.setQuestionType(questionType);
-        quiz.setText(text);
-
-        session.save(quiz);
-        return quiz;
     }
 
     protected OrganizationTypeActivity buildOrganizationTypeActivity(
@@ -508,34 +642,27 @@ public class Bootstrap implements ServletContextListener {
         return goal;
     }
 
-    protected User buildUser(String email, String firstName, String lastName, String password,
-            TimeZone timeZone, int points, Level level, boolean isAdmin) {
-        Criteria criteria = session.createCriteria(User.class);
-        criteria.add(Restrictions.eq("email", email));
+    protected GoalActivity buildGoalActivity(Goal goal, Activity activity, int multiplier) {
+        Criteria criteria = session.createCriteria(GoalActivity.class);
+        criteria.add(Restrictions.eq("goal", goal));
+        criteria.add(Restrictions.eq("activity", activity));
         @SuppressWarnings("unchecked")
-        List<User> existingRecords = criteria.list();
+        List<GoalActivity> existingRecords = criteria.list();
 
         if (existingRecords.size() > 0) {
             return existingRecords.get(0);
         }
 
-        String encPassword = passwordEncoder.encodePassword(password, null);
-        System.out.println("enc " + encPassword);
-        User user = new User();
+        GoalActivity goalActivity = new GoalActivity();
 
-        user.setEmail(email);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setPassword(encPassword);
-        user.setAdmin(isAdmin);
-        user.setTimeZone(timeZone);
-        user.setPoints(points);
-        user.setLevel(level);
-        user.setLocked(false);
-        user.setLoginCount(0);
-        session.save(user);
+        goalActivity.setGoal(goal);
+        goalActivity.setActivity(activity);
+        goalActivity.setMultiplier(multiplier);
 
-        return user;
+        goal.addActivity(goalActivity);
+        session.flush();
+
+        return goalActivity;
     }
 
     protected Challenge buildChallenge(String name, String description, Activity activity,
@@ -559,6 +686,60 @@ public class Bootstrap implements ServletContextListener {
         // TODO
 
         return challenge;
+    }
+
+    protected Question buildQuestion(Goal goal, QuestionType questionType, String text, int points,
+            String answer) {
+        Criteria criteria = session.createCriteria(Question.class);
+        criteria.add(Restrictions.eq("goal", goal));
+        criteria.add(Restrictions.eq("questionType", questionType));
+        criteria.add(Restrictions.eq("text", text));
+        @SuppressWarnings("unchecked")
+        List<Question> existingRecords = criteria.list();
+
+        if (existingRecords.size() > 0) {
+            return existingRecords.get(0);
+        }
+
+        Question question = new Question();
+
+        question.setGoal(goal);
+        question.setQuestionType(questionType);
+        question.setText(text);
+        question.setPoints(points);
+        question.setAnswer(answer);
+
+        session.save(question);
+        return question;
+    }
+
+    protected User buildUser(String email, String firstName, String lastName, String password,
+            TimeZone timeZone, int points, Level level, boolean isAdmin) {
+        Criteria criteria = session.createCriteria(User.class);
+        criteria.add(Restrictions.eq("email", email));
+        @SuppressWarnings("unchecked")
+        List<User> existingRecords = criteria.list();
+
+        if (existingRecords.size() > 0) {
+            return existingRecords.get(0);
+        }
+
+        String encPassword = passwordEncoder.encodePassword(password, null);
+        User user = new User();
+
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPassword(encPassword);
+        user.setAdmin(isAdmin);
+        user.setTimeZone(timeZone);
+        user.setPoints(points);
+        user.setLevel(level);
+        user.setLocked(false);
+        user.setLoginCount(0);
+        session.save(user);
+
+        return user;
     }
 
     protected UserChallenge buildUserChallenge(User user, Challenge challenge) {

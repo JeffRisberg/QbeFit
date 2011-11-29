@@ -70,32 +70,25 @@ public class User extends AbstractDomain implements Serializable {
     @Transient
     private String confirmPassword;
 
+    private boolean aboutMeInfoGathered;
     private int points;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<UserBadge> userBadges;
 
+    private boolean temporary;
     private boolean admin;
     private boolean locked;
 
     private int loginCount;
 
-    private boolean aboutMeInfoGathered;
-
     @Column(nullable = true)
     private Date lastLoggedIn;
-
-    @Transient
-    private boolean temporary;
-
-    @Transient
-    private boolean splashScreenShown;
 
     /** Constructor */
     public User() {
         this.userBadges = new ArrayList<UserBadge>();
         this.temporary = false;
-        this.splashScreenShown = false;
     }
 
     public int getId() {
@@ -194,6 +187,22 @@ public class User extends AbstractDomain implements Serializable {
         this.points = points;
     }
 
+    public boolean isAboutMeInfoGathered() {
+        return aboutMeInfoGathered;
+    }
+
+    public void setAboutMeInfoGathered(boolean aboutMeInfoGathered) {
+        this.aboutMeInfoGathered = aboutMeInfoGathered;
+    }
+
+    public boolean isTemporary() {
+        return temporary;
+    }
+
+    public void setTemporary(boolean temporary) {
+        this.temporary = temporary;
+    }
+
     public boolean isAdmin() {
         return admin;
     }
@@ -210,14 +219,6 @@ public class User extends AbstractDomain implements Serializable {
         this.locked = locked;
     }
 
-    public boolean isAboutMeInfoGathered() {
-        return aboutMeInfoGathered;
-    }
-
-    public void setAboutMeInfoGathered(boolean aboutMeInfoGathered) {
-        this.aboutMeInfoGathered = aboutMeInfoGathered;
-    }
-
     public int getLoginCount() {
         return loginCount;
     }
@@ -232,22 +233,6 @@ public class User extends AbstractDomain implements Serializable {
 
     public void setLastLoggedIn(Date lastLoggedIn) {
         this.lastLoggedIn = lastLoggedIn;
-    }
-
-    public boolean isTemporary() {
-        return temporary;
-    }
-
-    public void setTemporary(boolean temporary) {
-        this.temporary = temporary;
-    }
-
-    public boolean isSplashScreenShown() {
-        return splashScreenShown;
-    }
-
-    public void setSplashScreenShown(boolean splashScreenShown) {
-        this.splashScreenShown = splashScreenShown;
     }
 
     @Override
@@ -267,7 +252,9 @@ public class User extends AbstractDomain implements Serializable {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("User[email=" + email);
+        sb.append("User[email=").append(email);
+        sb.append(", admin=").append(admin);
+        sb.append(", temporary=").append(temporary);
         sb.append("]");
         return sb.toString();
     }

@@ -1,16 +1,14 @@
 package com.incra.controllers;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,36 +22,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.incra.domain.Activity;
 import com.incra.domain.ActivityCategory;
-import com.incra.domain.User;
 import com.incra.domain.UserActivity;
 import com.incra.domain.propertyEditor.ActivityCategoryPropertyEditor;
 import com.incra.domain.propertyEditor.ActivityPropertyEditor;
 import com.incra.services.ActivityCategoryService;
 import com.incra.services.ActivityService;
 import com.incra.services.PageFrameworkService;
-import com.incra.services.UserActivityService;
-import com.incra.services.UserService;
 
 /**
- * The <i>ActivityController</i> defines operations on activities, including
- * selection.
+ * The <i>ActivityController</i> implements admin operations on Activities.
  * 
  * @author Jeffrey Risberg
  * @since 09/10/11
  */
+@Secured("ROLE_ADMIN")
 @Controller
 public class ActivityController {
 
     protected static Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
     @Autowired
-    private UserService userService;
-    @Autowired
     private ActivityService activityService;
     @Autowired
     private ActivityCategoryService activityCategoryService;
-    @Autowired
-    private UserActivityService userActivityService;
     @Autowired
     private PageFrameworkService pageFrameworkService;
 
@@ -72,66 +63,6 @@ public class ActivityController {
     public String index() {
         return "redirect:/activity/list";
     }
-
-    // USER
-
-    @RequestMapping(value = "/activity/select")
-    public ModelAndView select(Object criteria) {
-
-        User user = userService.getCurrentUser();
-        List<Activity> activityList = activityService.findEntityList();
-        List<UserActivity> priorUserActivityList = userActivityService.findEntityList(user);
-
-        List<Boolean> selectedList = new ArrayList<Boolean>();
-        for (Activity activity : activityList) {
-            Integer activityId = activity.getId();
-            UserActivity priorUserActivity = getUserActivityForActivityId(priorUserActivityList,
-                    activityId);
-
-            if (priorUserActivity != null) {
-                selectedList.add(Boolean.TRUE);
-            } else {
-                selectedList.add(Boolean.FALSE);
-            }
-        }
-
-        ModelAndView modelAndView = new ModelAndView("activity/select");
-        modelAndView.addObject("activityList", activityList);
-        modelAndView.addObject("selectedList", selectedList);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/activity/selectUpdate", method = RequestMethod.POST)
-    public String selectUpdate(HttpServletRequest httpRequest) {
-
-        User user = userService.getCurrentUser();
-        List<Activity> activityList = activityService.findEntityList();
-        List<UserActivity> priorUserActivityList = userActivityService.findEntityList(user);
-
-        for (Activity activity : activityList) {
-            Integer activityId = activity.getId();
-            UserActivity priorUserActivity = getUserActivityForActivityId(priorUserActivityList,
-                    activityId);
-
-            if (httpRequest.getParameter("activity_" + activityId) != null) {
-                if (priorUserActivity == null) {
-                    UserActivity userActivity = new UserActivity();
-                    userActivity.setUser(user);
-                    userActivity.setActivity(activity);
-                    userActivity.setEffectivityStart(new Date());
-                    userActivityService.save(userActivity);
-                }
-            } else {
-                if (priorUserActivity != null) {
-                    priorUserActivity.setEffectivityEnd(new Date());
-                    userActivityService.save(priorUserActivity);
-                }
-            }
-        }
-        return "redirect:/home";
-    }
-
-    // ADMIN
 
     @RequestMapping(value = "/activity/list")
     public ModelAndView list(Object criteria) {

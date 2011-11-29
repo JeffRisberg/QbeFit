@@ -13,8 +13,8 @@ import com.incra.domain.Badge;
 import com.incra.services.BadgeService;
 
 /**
- * The <i>BadgeController</i> controller defines operations on Badge entities,
- * including selection.
+ * The <i>BadgeController</i> controller will define admin operations on Badges,
+ * but for now it just lists them.
  * 
  * @author Jeffrey Risberg
  * @since 09/11/11

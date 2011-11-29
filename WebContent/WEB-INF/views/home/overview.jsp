@@ -11,7 +11,7 @@
   .grid-bottom { height: 20px; background: url(/QbeFit/resources/images/skin/bgr-overview-bot.png) }
 </style>
 
-<c:if test="${userName}">
+<c:if test="${not empty userName}">
  <div class="welcomeMsg">
   <div style="float:right">
    <c:forEach var="userBadge" items="${userBadges}">
@@ -39,6 +39,11 @@
  </div>
 </c:if>
 
+<c:if test="${not empty organizationType}">
+<span>
+ ${organizationType.name}
+</span>
+</c:if>
 <span class="button">
 <a href="<c:url value="/history/activity" />">Activity Chart</a>
 </span>
@@ -75,7 +80,7 @@
   <div class="grid-bottom"></div>  
 </div>
 <div class="subsection" class="select">
-	<a href="<c:url value="/user/aboutMe" />">Review 'About Me' Information</a>
+	<a href="<c:url value="/activitySelect/aboutMe" />">Select New Activities</a>
 </div>
 
 <script type="text/javascript"> 

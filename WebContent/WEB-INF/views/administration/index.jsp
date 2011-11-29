@@ -11,22 +11,13 @@
 </c:if>
 
 <div id="administration">
-  <div class="list">
-    <table class="summary">
-      <thead>
-        <tr>
-          <th>Name</th>                                  
-          <th>Url</th>
-        </tr>
-      </thead>
-      <tbody>
-        <c:forEach var="adminPanel" items="${adminPanelList}" varStatus="rowCounter">          
-          <tr class="${rowCounter.count % 2 == 0 ? 'even' : 'odd'}">
-            <td>${adminPanel.name}</td>            
-            <td>${adminPanel.url}</td>                                 
-          </tr>
-        </c:forEach>       
-      </tbody>
-    </table>
+  <div class="list">  
+    <c:forEach var="adminPanel" items="${adminPanelList}" varStatus="rowCounter">          
+      <div style="font-size: 16px; padding: 5px;">
+          <a href="<c:url value="${adminPanel.url}" />">
+          ${adminPanel.name}
+          </a>
+      </div>
+    </c:forEach>           
   </div>
 </div>

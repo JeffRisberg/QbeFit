@@ -11,68 +11,66 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.incra.domain.Activity;
 import com.incra.domain.User;
-import com.incra.domain.UserActivity;
+import com.incra.domain.UserAnswer;
 
 /**
- * The <i>UserActivityService</i> handles the Hibernate-session based updating
- * of UserActivity entities.
+ * The <i>UserAnswerService</i> handles the Hibernate-session based updating of
+ * UserAnswerService entities.
  * 
  * @author Jeffrey Risberg
- * @since 09/10/11
+ * @since 11/26/11
  */
 @Service
 @Transactional
 @Repository
-public class UserActivityService {
+public class UserAnswerService {
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @SuppressWarnings("unchecked")
-    public List<UserActivity> findEntityList() {
+    public List<UserAnswer> findEntityList() {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(UserActivity.class);
+        Criteria criteria = session.createCriteria(UserAnswer.class);
 
         return criteria.list();
     }
 
     @SuppressWarnings("unchecked")
-    public List<UserActivity> findEntityList(User user) {
+    public List<UserAnswer> findEntityList(User user) {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(UserActivity.class);
+        Criteria criteria = session.createCriteria(UserAnswer.class);
 
         criteria.add(Restrictions.eq("user", user));
 
         return criteria.list();
     }
 
-    public UserActivity findEntityById(int id) {
+    public UserAnswer findEntityById(int id) {
         Session session = sessionFactory.getCurrentSession();
 
-        return (UserActivity) session.get(UserActivity.class, id);
+        return (UserAnswer) session.get(UserAnswer.class, id);
     }
 
-    public UserActivity findEntityByUserAndActivity(User user, Activity activity) {
+    public UserAnswer findEntityByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(UserActivity.class);
+        Criteria criteria = session.createCriteria(UserAnswer.class);
 
-        criteria.add(Restrictions.eq("user", user));
-        criteria.add(Restrictions.eq("activity", activity));
+        criteria.add(Restrictions.eq("name", name));
 
-        return (UserActivity) criteria.uniqueResult();
+        return (UserAnswer) criteria.uniqueResult();
     }
 
-    public void save(UserActivity userActivity) {
+    public void save(UserAnswer userAnswer) {
         Session session = sessionFactory.getCurrentSession();
 
-        session.saveOrUpdate(userActivity);
+        session.saveOrUpdate(userAnswer);
     }
 
-    public void delete(UserActivity userActivity) {
+    public void delete(UserAnswer userAnswer) {
         Session session = sessionFactory.getCurrentSession();
 
-        session.delete(userActivity);
+        session.delete(userAnswer);
     }
 }

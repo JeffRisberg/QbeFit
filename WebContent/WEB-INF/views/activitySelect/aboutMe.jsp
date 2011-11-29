@@ -4,14 +4,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<c:if test="${flashMessage != null}">
+  <div class="message">${flashMessage}</div>
+</c:if>
+
 <div id="top" style="width: 700px; margin: 0px auto;">
 	<div style="font-size: 15px;">		
 	 Tell us a little about yourself and your goals:		
 	</div>
 	
-	<c:url var="saveUrl" value="/user/aboutMeUpdate"/>
+	<c:url var="saveUrl" value="/activitySelect/aboutMeUpdate"/>
   <form:form method="post" action="${saveUrl}">
-		<div style="background: none; margin: 0px auto;">
+		<div style="background: none; margin: 7px auto; padding: 7px auto;">
 		  Type: 
 			<form:select path="organizationType">
         <form:options items="${organizationTypeList}" itemValue="id" itemLabel="name" />
@@ -20,7 +24,7 @@
     <table class="summary">
       <thead>
         <tr>
-          <th>&nbsp;</th>
+          <th>Select Goal</th>
           <th>Name</th>                   
           <th>Description</th>      
         </tr>

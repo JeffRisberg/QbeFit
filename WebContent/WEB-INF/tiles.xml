@@ -50,14 +50,29 @@
     <put-attribute name="body" value="/WEB-INF/views/user/{1}.jsp" />
   </definition>
   
+  <definition name="register/*" extends="standardLayout">
+    <put-attribute name="title" value="Registration" />
+    <put-attribute name="body" value="/WEB-INF/views/register/{1}.jsp" />
+  </definition>
+  
   <definition name="activity/*" extends="standardLayout">
     <put-attribute name="title" value="Activities" />
     <put-attribute name="body" value="/WEB-INF/views/activity/{1}.jsp" />
   </definition>
   
+  <definition name="activitySelect/*" extends="standardLayout">
+    <put-attribute name="title" value="Activities" />
+    <put-attribute name="body" value="/WEB-INF/views/activitySelect/{1}.jsp" />
+  </definition>
+  
   <definition name="goal/*" extends="standardLayout">
     <put-attribute name="title" value="Goals" />
     <put-attribute name="body" value="/WEB-INF/views/goal/{1}.jsp" />
+  </definition>
+  
+  <definition name="question/*" extends="standardLayout">
+    <put-attribute name="title" value="Question" />
+    <put-attribute name="body" value="/WEB-INF/views/question/{1}.jsp" />
   </definition>
   
   <definition name="challenge/*" extends="standardLayout">

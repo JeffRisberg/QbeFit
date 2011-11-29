@@ -7,33 +7,6 @@
   <div style="float:left">
    QbeFit was developed at Startup Weekend, September 2011
   </div>
-  <sec:authorize access="hasRole('ROLE_ADMIN')">
-  <div style="padding-left: 10px; float:right">
-   <a href="<c:url value="/activity" />">
-    Activities
-   </a>
-  </div>
-  <div style="padding-left: 10px; float:right">
-   <a href="<c:url value="/goal" />">
-    Goals
-   </a>
-  </div>
-  <div style="padding-left: 10px; float:right">
-   <a href="<c:url value="/challenge" />">
-    Challenges
-   </a>
-  </div>
-  <div style="padding-left: 10px; float:right">
-   <a href="<c:url value="/user" />">
-    Users
-   </a>
-  </div>
-  <div style="padding-left: 10px; float:right">
-   <a href="<c:url value="/badge" />">
-    Badges
-   </a>
-  </div>
-  </sec:authorize>
   <div style="padding-left: 10px; float:right">
    <a href="<c:url value="/home/terms" />">
     Terms

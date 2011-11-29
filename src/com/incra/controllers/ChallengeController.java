@@ -25,8 +25,8 @@ import com.incra.services.ChallengeService;
 import com.incra.services.PageFrameworkService;
 
 /**
- * The <i>ChallengeController</i> controller defines operations on challenges,
- * including selection.
+ * The <i>ChallengeController</i> controller defines admin operations on
+ * challenges.
  * 
  * @author Jeffrey Risberg
  * @since 09/10/11

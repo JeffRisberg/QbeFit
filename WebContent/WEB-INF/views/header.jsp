@@ -10,8 +10,14 @@
 </div>
 
 <sec:authorize access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')">
-<div style="float: right; font-size: 16px; background: #cccccc; padding: 5px;">
+<div style="float: right; font-size: 16px; background: #cccccc; padding: 5px; margin-left: 5px;">
    <a href="<c:url value="/j_spring_security_logout" />">Logout</a>
+</div>
+</sec:authorize>
+
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+<div style="float: right; font-size: 16px; background: #cccccc; padding: 5px; margin-left: 5px;">
+   <a href="<c:url value="/administration" />">Admin</a>
 </div>
 </sec:authorize>
 
@@ -31,7 +37,7 @@
    <input type="submit" value="Login" class="button">
   </form:form>
   <div style="padding: 5px 0px;">
-   <a href="<c:url value="/user/register" />">Register and Save my Scores</a>
+   <a href="<c:url value="/register" />">Register and Save my Scores</a>
   </div>
  </div>
 </sec:authorize>

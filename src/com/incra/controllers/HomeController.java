@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,16 +27,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.incra.controllers.dto.TrackSummaryColumn;
 import com.incra.controllers.dto.TrackSummaryRow;
 import com.incra.domain.Activity;
+import com.incra.domain.ActivityCategory;
 import com.incra.domain.Event;
-import com.incra.domain.Goal;
 import com.incra.domain.User;
 import com.incra.domain.UserActivity;
-import com.incra.domain.UserGoal;
 import com.incra.services.ActivityService;
 import com.incra.services.EventService;
 import com.incra.services.LevelService;
 import com.incra.services.UserActivityService;
-import com.incra.services.UserGoalService;
 import com.incra.services.UserService;
 
 /**
@@ -61,8 +60,6 @@ public class HomeController {
     @Autowired
     private UserActivityService userActivityService;
     @Autowired
-    private UserGoalService userGoalService;
-    @Autowired
     private EventService eventService;
 
     public HomeController() {
@@ -80,24 +77,26 @@ public class HomeController {
 
     // PRIMARY SCREEN MANAGEMENT
 
+    /**
+     * Primary display method
+     */
     @RequestMapping(value = "/home/**", method = RequestMethod.GET)
-    public ModelAndView index(HttpServletRequest httpRequest) {
+    public ModelAndView index(HttpServletRequest httpRequest, HttpSession httpSession) {
 
-        User user = userService.getCurrentUser();
+        boolean errorFlag = httpRequest.getParameter("login_error") != null;
 
-        if (user.isSplashScreenShown()) {
+        if (errorFlag == false && httpSession.getAttribute("splashScreenShown") != null) {
             return overview();
         }
 
         List<Activity> activities = activityService.findEntityList();
-        boolean errorFlag = httpRequest.getParameter("login_error") != null;
 
         ModelAndView modelAndView = new ModelAndView("home/index");
         modelAndView.addObject("numActivities", activities.size());
         modelAndView.addObject("isError", errorFlag);
 
         if (errorFlag == false) {
-            user.setSplashScreenShown(true);
+            httpSession.setAttribute("splashScreenShown", Boolean.TRUE);
         }
         return modelAndView;
     }
@@ -109,7 +108,7 @@ public class HomeController {
         if (user.isAboutMeInfoGathered()) {
             return "redirect:/home/overview";
         } else {
-            return "redirect:/user/aboutMe";
+            return "redirect:/activitySelect/aboutMe";
         }
     }
 
@@ -133,10 +132,17 @@ public class HomeController {
 
     // OVERVIEW SCREEN
 
+    /**
+     * Show the selected activities, and the day-by-day historical completions.
+     */
     @RequestMapping(value = "/home/overview")
     public ModelAndView overview() {
 
         User user = userService.getCurrentUser();
+
+        if (logger.isInfoEnabled()) {
+            logger.info("overview for " + user);
+        }
 
         List<TrackSummaryRow> trackSummaryRowList = new ArrayList<TrackSummaryRow>();
         List<TrackSummaryColumn> trackSummaryColumnList = new ArrayList<TrackSummaryColumn>();
@@ -169,28 +175,36 @@ public class HomeController {
             }
         }
 
-        List<UserGoal> userGoalList = userGoalService.findEntityList(user);
-        List<Goal> goalList = new ArrayList<Goal>();
-
-        for (UserGoal userGoal : userGoalList) {
-            if (userGoal.getEffectivityEnd() == null) {
-                goalList.add(userGoal.getGoal());
+        Map<ActivityCategory, Double> bubbleMap = new HashMap<ActivityCategory, Double>();
+        for (UserActivity userActivity : userActivityList) {
+            if (userActivity.getEffectivityEnd() == null) {
+                ActivityCategory ac = userActivity.getActivity().getActivityCategory();
+                if (bubbleMap.get(ac) == null) {
+                    bubbleMap.put(ac, new Double(0.2));
+                } else {
+                    Double oldValue = bubbleMap.get(ac);
+                    bubbleMap.put(ac, new Double(oldValue + 0.34));
+                }
             }
         }
 
         ModelAndView modelAndView = new ModelAndView("home/overview");
-        if (!user.isTemporary()) {
+        if (user.isTemporary() == false) {
             modelAndView.addObject("userName", user.getFirstName() + " " + user.getLastName());
+            modelAndView.addObject("organizationType", user.getOrganizationType());
             modelAndView.addObject("points", user.getPoints());
             modelAndView.addObject("level", user.getLevel());
             modelAndView.addObject("userBadges", user.getUserBadges());
         }
         modelAndView.addObject("trackSummaryColumnList", trackSummaryColumnList);
         modelAndView.addObject("trackSummaryRowList", trackSummaryRowList);
-        modelAndView.addObject("goalList", goalList);
+        modelAndView.addObject("bubbleMap", bubbleMap);
         return modelAndView;
     }
 
+    /**
+     * Handle clicking on an activity name
+     */
     @RequestMapping(value = "/home/activity/{id}", method = RequestMethod.GET)
     public String activity(@PathVariable int id, Model model, HttpSession session) {
 
@@ -203,6 +217,9 @@ public class HomeController {
         }
     }
 
+    /**
+     * Handle performing an activity
+     */
     @RequestMapping(value = "/home/doneIt/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Map<String, Object> doneIt(@PathVariable Integer id, HttpServletRequest request,

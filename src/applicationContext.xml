@@ -38,7 +38,8 @@
         <value>com.incra.domain.ChallengeStep</value>
         <value>com.incra.domain.Country</value>
         <value>com.incra.domain.Event</value>
-        <value>com.incra.domain.Goal</value>       
+        <value>com.incra.domain.Goal</value> 
+        <value>com.incra.domain.GoalActivity</value>       
         <value>com.incra.domain.GroupMember</value>
         <value>com.incra.domain.Level</value>
         <value>com.incra.domain.LogEntry</value>

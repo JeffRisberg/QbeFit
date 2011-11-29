@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +16,7 @@ import com.incra.controllers.dto.AdminPanel;
  * The <i>AdministrationController</i> controller generates the admin screen
  * 
  * @author Jeffrey Risberg
- * @since 10/15/11
+ * @since 11/15/11
  */
 @Controller
 public class AdministrationController {
@@ -25,6 +26,12 @@ public class AdministrationController {
     public AdministrationController() {
     }
 
+    /**
+     * Construct a description of the admin screen, out of the panels, then
+     * render it. the code should be checking for permissions on the specific
+     * panels, but it doesn't yet.
+     */
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/administration/**")
     public ModelAndView index() {
 
@@ -47,6 +54,9 @@ public class AdministrationController {
         adminPanelList.add(adminPanel);
 
         adminPanel = new AdminPanel("Goals", "/goal");
+        adminPanelList.add(adminPanel);
+
+        adminPanel = new AdminPanel("Questions", "/question");
         adminPanelList.add(adminPanel);
 
         ModelAndView modelAndView = new ModelAndView("administration/index");

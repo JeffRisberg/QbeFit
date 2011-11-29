@@ -71,7 +71,6 @@ public class UserService {
         user.setLastName("dummyL");
         user.setPassword("dummyP");
         user.setTemporary(true);
-        user.setSplashScreenShown(false);
 
         save(user);
         return user;
