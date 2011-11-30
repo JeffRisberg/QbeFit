@@ -82,6 +82,9 @@
 <div class="subsection" class="select">
 	<a href="<c:url value="/activitySelect/aboutMe" />">Select New Activities</a>
 </div>
+<div class="subsection" class="select">
+  <a href="<c:url value="/quiz" />">Take a Quiz</a>
+</div>
 
 <script type="text/javascript"> 
   function doneIt(userActivityId) { 

@@ -373,9 +373,14 @@ public class Bootstrap implements ServletContextListener {
 
         // Questions
         buildQuestion(goalCarFit, QuestionType.Checkbox, "Do you work out?", 5, "  ");
+        buildQuestion(goalChoRed, QuestionType.Checkbox, "Do you avoid fatty foods?", 10, "  ");
         buildQuestion(goalWeiLos, QuestionType.Checkbox, "Do you watch your diet?", 5, "  ");
         buildQuestion(goalWeiLos, QuestionType.Checkbox,
                 "Did you know that fortune cookies are good for you?", 2, "  ");
+        buildQuestion(goalMusTon, QuestionType.Checkbox,
+                "Do you go to the gym more than twice per week?", 5, "  ");
+        buildQuestion(goalOveFit, QuestionType.Checkbox,
+                "Do you take the stairs instead of the elevator?", 5, "  ");
 
         // Challenges
         Challenge challenge01 = buildChallenge("Desk Hoppers",

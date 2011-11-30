@@ -10,6 +10,36 @@
   <div class="message">${flashMessage}</div>
 </c:if>
 
-<div>
-Quiz display screen
-</div>
+<c:url var="saveUrl" value="/quiz/indexUpdate"/>
+<form:form method="post" action="${saveUrl}">
+  <table>    
+    <tbody>
+      <c:forEach var="question" items="${questionList}" varStatus="rowCounter">
+        <tr>          
+          <td>${rowCounter.count}. ${question.text}</td>
+                    
+          <c:if test="${question.questionType == 'InputString'}">       
+            <td><input type="text"/></td>
+          </c:if>
+          <c:if test="${question.questionType == 'InputNumber'}">           
+            <td><input type="text"/></td>
+          </c:if>     
+          <c:if test="${question.questionType == 'Checkbox'}">        
+            <td><input type="checkbox" name="ans" value="ans"></td>
+          </c:if>                                                                   
+        </tr> 
+      </c:forEach>
+          
+      <c:if test="${empty questionList}">
+        <tr>
+          <td colspan="999">No questions found, please select more goals.</td>
+        </tr>
+      </c:if>
+    </tbody>    
+  </table>
+    
+  <div style="padding: 15px; text-align: bottom;">
+    <input type="Submit" name="submit" Value="Submit">
+  </div> 
+
+ </form:form> 

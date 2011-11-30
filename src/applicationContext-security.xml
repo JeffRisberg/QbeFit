@@ -12,7 +12,8 @@
       <intercept-url pattern="/" access="permitAll()" />
       <intercept-url pattern="/home/**" access="permitAll()" />             
       <intercept-url pattern="/register/**" access="permitAll()" />     
-      <intercept-url pattern="/activitySelect/**" access="permitAll()" />     
+      <intercept-url pattern="/activitySelect/**" access="permitAll()" />
+      <intercept-url pattern="/quiz/**" access="permitAll()" />     
       <intercept-url pattern="/resources/**" access="permitAll()" />      
       <intercept-url pattern="/**" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" />
       <form-login         

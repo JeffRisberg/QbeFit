@@ -1,11 +1,23 @@
 package com.incra.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.incra.domain.Goal;
+import com.incra.domain.Question;
 import com.incra.domain.User;
+import com.incra.domain.UserGoal;
 import com.incra.services.QuestionService;
+import com.incra.services.UserGoalService;
 import com.incra.services.UserService;
 
 /**
@@ -22,21 +34,44 @@ public class QuizController {
     @Autowired
     private UserService userService;
     @Autowired
+    private UserGoalService userGoalService;
+    @Autowired
     private QuestionService questionService;
 
     public QuizController() {
     }
 
-    @RequestMapping(value = "/quiz")
-    public String root() {
-        User user = userService.getCurrentUser();
-
-        return "redirect:/home";
+    @InitBinder
+    protected void initBinder(WebDataBinder dataBinder) throws Exception {
     }
 
-    // one method to start the quiz
+    /**
+     * Method to display the quiz.
+     */
+    @RequestMapping(value = "/quiz/**")
+    public ModelAndView index(HttpSession session) {
+        User user = userService.getCurrentUser();
 
-    // one method to display a list of question
+        List<UserGoal> userGoalList = userGoalService.findEntityList(user);
+        List<Question> questionList = new ArrayList<Question>();
 
-    // one method to process the posted answers
+        for (UserGoal userGoal : userGoalList) {
+            Goal goal = userGoal.getGoal();
+            List<Question> goalQuestionList = questionService.findEntityListByGoal(goal);
+
+            for (Question question : goalQuestionList) {
+                if (questionList.contains(question) == false) {
+                    questionList.add(question);
+                }
+            }
+        }
+
+        ModelAndView modelAndView = new ModelAndView("quiz/index");
+        modelAndView.addObject("questionList", questionList);
+        return modelAndView;
+    }
+
+    /**
+     * Method to process the posted answers.
+     */
 }
