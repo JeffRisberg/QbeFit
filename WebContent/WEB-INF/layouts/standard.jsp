@@ -10,9 +10,9 @@
 	   <tiles:insertAttribute name="title" ignore="true" />
 	</title>
 	<link rel="stylesheet" href="<c:url value="/resources/styles/main.css" />" type="text/css" media="screen" />
-  <link rel="stylesheet" type="text/css" href="<c:url value="/resources/styles/redmond/jquery-ui-1.8.11.custom.css" />" />   
-  <script type="text/javascript" src="<c:url value="/resources/javascript/jquery-1.5.2.min.js" />"></script>
-  <script type="text/javascript" src="<c:url value="/resources/javascript/jquery-ui-1.8.11.custom.min.js" />"></script>
+  <link rel="stylesheet" type="text/css" href="<c:url value="/resources/styles/start/jquery-ui-1.8.16.custom.css" />" />   
+  <script type="text/javascript" src="<c:url value="/resources/javascript/jquery-1.6.4.min.js" />"></script>
+  <script type="text/javascript" src="<c:url value="/resources/javascript/jquery-ui-1.8.16.custom.min.js" />"></script>
 </head>
 <body>
 <div id="header">
