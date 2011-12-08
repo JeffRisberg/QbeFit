@@ -32,7 +32,7 @@ import com.incra.services.QuestionService;
  * @since 11/26/11
  */
 @Controller
-public class QuestionController {
+public class QuestionController extends AbstractAdminController {
 
     protected static Logger logger = LoggerFactory.getLogger(QuestionController.class);
 

@@ -28,7 +28,7 @@ import com.incra.services.PageFrameworkService;
  * @since 11/13/11
  */
 @Controller
-public class OrganizationTypeController {
+public class OrganizationTypeController extends AbstractAdminController {
 
     protected static Logger logger = LoggerFactory.getLogger(OrganizationTypeController.class);
 

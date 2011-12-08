@@ -37,7 +37,7 @@ import com.incra.services.PageFrameworkService;
  */
 @Secured("ROLE_ADMIN")
 @Controller
-public class ActivityController {
+public class ActivityController extends AbstractAdminController {
 
     protected static Logger logger = LoggerFactory.getLogger(ActivityController.class);
 

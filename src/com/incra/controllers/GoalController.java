@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,9 +31,8 @@ import com.incra.services.PageFrameworkService;
  * @author Jeffrey Risberg
  * @since 09/10/11
  */
-@Secured("ROLE_ADMIN")
 @Controller
-public class GoalController {
+public class GoalController extends AbstractAdminController {
 
     protected static Logger logger = LoggerFactory.getLogger(GoalController.class);
 

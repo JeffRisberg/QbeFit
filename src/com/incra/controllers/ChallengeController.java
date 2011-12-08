@@ -32,7 +32,7 @@ import com.incra.services.PageFrameworkService;
  * @since 09/10/11
  */
 @Controller
-public class ChallengeController {
+public class ChallengeController extends AbstractAdminController {
 
     protected static Logger logger = LoggerFactory.getLogger(ChallengeController.class);
 

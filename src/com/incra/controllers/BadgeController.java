@@ -20,7 +20,7 @@ import com.incra.services.BadgeService;
  * @since 09/11/11
  */
 @Controller
-public class BadgeController {
+public class BadgeController extends AbstractAdminController {
 
     protected static Logger logger = LoggerFactory.getLogger(BadgeController.class);
 

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +25,8 @@ import com.incra.services.PageFrameworkService;
  * @author Jeffrey Risberg
  * @since 01/22/11
  */
-@Secured("ROLE_ADMIN")
 @Controller
-public class LogEntryController {
+public class LogEntryController extends AbstractAdminController {
 
     protected static Logger logger = LoggerFactory.getLogger(LogEntryController.class);
 
