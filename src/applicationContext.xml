@@ -46,7 +46,8 @@
         <value>com.incra.domain.LogEntryKey</value>
         <value>com.incra.domain.OrganizationType</value>
         <value>com.incra.domain.OrganizationTypeActivity</value>
-        <value>com.incra.domain.Question</value>       
+        <value>com.incra.domain.Question</value>  
+        <value>com.incra.domain.QuestionCategory</value>       
         <value>com.incra.domain.TimeZone</value> 
         <value>com.incra.domain.User</value>     
         <value>com.incra.domain.UserActivity</value> 

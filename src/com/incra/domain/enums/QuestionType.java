@@ -7,13 +7,12 @@ package com.incra.domain.enums;
  * @since 11/22/11
  */
 public enum QuestionType {
-    /* These are patterned after Excel */
-    /* 0 */InputString("InputString"),
-    /* 1 */InputNumber("InputNumber"),
-    /* 2 */Checkbox("Checkbox"),
-    /* 3 */Date("Date"),
-    /* 4 */DropDownString("DropDownString"),
-    /* 5 */DropDownNumber("DropDownNumber");
+    /** These are patterned after survey-management software */
+    /* 0 */String("String"),
+    /* 1 */Number("Number"),
+    /* 2 */Boolean("Boolean"),
+    /* 3 */Range("Range"),
+    /* 4 */MultipleChoice("Multiple Choice"); /* display as drop down */
 
     private String name;
 

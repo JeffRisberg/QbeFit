@@ -36,6 +36,7 @@ import com.incra.domain.Level;
 import com.incra.domain.OrganizationType;
 import com.incra.domain.OrganizationTypeActivity;
 import com.incra.domain.Question;
+import com.incra.domain.QuestionCategory;
 import com.incra.domain.TimeZone;
 import com.incra.domain.User;
 import com.incra.domain.UserBadge;
@@ -100,6 +101,10 @@ public class Bootstrap implements ServletContextListener {
         // Activity Category seeds
         ActivityCategory acPhysical = buildActivityCategory("Physical", "Physical", "1Desc");
         ActivityCategory acWellness = buildActivityCategory("Wellness", "Wellness", "2Desc");
+
+        // Question Category seeds
+        QuestionCategory qcPhysical = buildQuestionCategory("Physical", "Recycling", "1Desc");
+        QuestionCategory qcWellness = buildQuestionCategory("Wellness", "Wellness", "2Desc");
 
         // Goal seeds
         Goal goalCarFit = buildGoal("Cardio Fit", "Take care of that ticker!");
@@ -343,6 +348,17 @@ public class Bootstrap implements ServletContextListener {
         this.buildGoalActivity(goalOveFit, activity, 2);
         this.buildGoalActivity(goalMusTon, activity, 1);
 
+        // Questions
+        buildQuestion(qcPhysical, QuestionType.Boolean, "Do you work out?", 5, "  ", "  ");
+        buildQuestion(qcPhysical, QuestionType.Boolean, "Do you avoid fatty foods?", 10, "  ", "  ");
+        buildQuestion(qcPhysical, QuestionType.Boolean, "Do you watch your diet?", 5, "  ", "  ");
+        buildQuestion(qcPhysical, QuestionType.Boolean,
+                "Did you know that fortune cookies are good for you?", 2, "  ", "  ");
+        buildQuestion(qcPhysical, QuestionType.Boolean,
+                "Do you go to the gym more than twice per week?", 5, "  ", "  ");
+        buildQuestion(qcPhysical, QuestionType.Boolean,
+                "Do you take the stairs instead of the elevator?", 5, "  ", "  ");
+
         // Badge seeds
         Badge badgeLifter = buildBadge("Laptop Lifter", "/badge/lifter.jpg",
                 "You've lifted your share of laptops");
@@ -370,17 +386,6 @@ public class Bootstrap implements ServletContextListener {
                 "Everyone looks up to you!");
         Level levelSuperstar = buildLevel("Superstar", "a", 500, "/level/superstar.jpg",
                 "Your star is shining brightly!");
-
-        // Questions
-        buildQuestion(goalCarFit, QuestionType.Checkbox, "Do you work out?", 5, "  ");
-        buildQuestion(goalChoRed, QuestionType.Checkbox, "Do you avoid fatty foods?", 10, "  ");
-        buildQuestion(goalWeiLos, QuestionType.Checkbox, "Do you watch your diet?", 5, "  ");
-        buildQuestion(goalWeiLos, QuestionType.Checkbox,
-                "Did you know that fortune cookies are good for you?", 2, "  ");
-        buildQuestion(goalMusTon, QuestionType.Checkbox,
-                "Do you go to the gym more than twice per week?", 5, "  ");
-        buildQuestion(goalOveFit, QuestionType.Checkbox,
-                "Do you take the stairs instead of the elevator?", 5, "  ");
 
         // Challenges
         Challenge challenge01 = buildChallenge("Desk Hoppers",
@@ -539,6 +544,26 @@ public class Bootstrap implements ServletContextListener {
         return activityCategory;
     }
 
+    protected QuestionCategory buildQuestionCategory(String name, String label, String description) {
+        Criteria criteria = session.createCriteria(QuestionCategory.class);
+        criteria.add(Restrictions.eq("name", name));
+        @SuppressWarnings("unchecked")
+        List<QuestionCategory> existingRecords = criteria.list();
+
+        if (existingRecords.size() > 0) {
+            return existingRecords.get(0);
+        }
+
+        QuestionCategory questionCategory = new QuestionCategory();
+
+        questionCategory.setName(name);
+        questionCategory.setLabel(label);
+        questionCategory.setDescription(description);
+        session.save(questionCategory);
+
+        return questionCategory;
+    }
+
     protected Goal buildGoal(String name, String description) {
         Criteria criteria = session.createCriteria(Goal.class);
         criteria.add(Restrictions.eq("name", name));
@@ -694,10 +719,10 @@ public class Bootstrap implements ServletContextListener {
         return challenge;
     }
 
-    protected Question buildQuestion(Goal goal, QuestionType questionType, String text, int points,
-            String answer) {
+    protected Question buildQuestion(QuestionCategory questionCategory, QuestionType questionType,
+            String text, int points, String explanation, String answer) {
         Criteria criteria = session.createCriteria(Question.class);
-        criteria.add(Restrictions.eq("goal", goal));
+        criteria.add(Restrictions.eq("questionCategory", questionCategory));
         criteria.add(Restrictions.eq("questionType", questionType));
         criteria.add(Restrictions.eq("text", text));
         @SuppressWarnings("unchecked")
@@ -709,10 +734,11 @@ public class Bootstrap implements ServletContextListener {
 
         Question question = new Question();
 
-        question.setGoal(goal);
+        question.setQuestionCategory(questionCategory);
         question.setQuestionType(questionType);
         question.setText(text);
         question.setPoints(points);
+        question.setExplanation(explanation);
         question.setAnswer(answer);
 
         session.save(question);

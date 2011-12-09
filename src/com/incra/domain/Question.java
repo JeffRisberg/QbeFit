@@ -1,7 +1,8 @@
 package com.incra.domain;
 
 /**
- * The <i>Question</i> entity describes one question.  Each question is associated with a goal, so
+ * The <i>Question</i> entity describes one question.  Each question is associated with a 
+ * question category.  Also, Goals are linked to Questions via the GoalQuestion entity, so
  * that a quiz can be generated for a user, with the questions drawn from the user's goals.
  * 
  * @author Jeff Risberg
@@ -9,6 +10,7 @@ package com.incra.domain;
  */
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,14 +33,29 @@ public class Question extends AbstractDomain implements Serializable {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "goal_id")
-    private Goal goal;
+    @JoinColumn(name = "questionCategory_id")
+    private QuestionCategory questionCategory;
+
+    // PriorQuestion must be one with QuestionType=Boolean.
+    // If not null, then this is shown only if prior question was answered true.
+    @ManyToOne
+    @JoinColumn(name = "priorQuestion_id", nullable = true)
+    private Question priorQuestion;
 
     @Size(min = 0, max = 1000)
     private String text;
 
     private QuestionType questionType;
     private int points;
+
+    @Column(nullable = true)
+    private String photo1;
+
+    @Column(nullable = true)
+    private String photo2;
+
+    @Size(min = 0, max = 1000)
+    private String explanation;
 
     @Size(min = 0, max = 1000)
     private String answer;
@@ -51,12 +68,20 @@ public class Question extends AbstractDomain implements Serializable {
         this.id = id;
     }
 
-    public Goal getGoal() {
-        return goal;
+    public QuestionCategory getQuestionCategory() {
+        return questionCategory;
     }
 
-    public void setGoal(Goal goal) {
-        this.goal = goal;
+    public void setQuestionCategory(QuestionCategory questionCategory) {
+        this.questionCategory = questionCategory;
+    }
+
+    public Question getPriorQuestion() {
+        return priorQuestion;
+    }
+
+    public void setPriorQuestion(Question priorQuestion) {
+        this.priorQuestion = priorQuestion;
     }
 
     public String getText() {
@@ -83,6 +108,30 @@ public class Question extends AbstractDomain implements Serializable {
         this.points = points;
     }
 
+    public String getPhoto1() {
+        return photo1;
+    }
+
+    public void setPhoto1(String photo1) {
+        this.photo1 = photo1;
+    }
+
+    public String getPhoto2() {
+        return photo2;
+    }
+
+    public void setPhoto2(String photo2) {
+        this.photo2 = photo2;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+
     public String getAnswer() {
         return answer;
     }
@@ -93,14 +142,15 @@ public class Question extends AbstractDomain implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(text);
+        return Objects.hashCode(text) + Objects.hashCode(questionCategory);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Question) {
             Question that = (Question) obj;
-            return Objects.equal(text, that.text) && Objects.equal(goal, that.goal);
+            return Objects.equal(text, that.text)
+                    && Objects.equal(questionCategory, that.questionCategory);
         }
         return false;
     }

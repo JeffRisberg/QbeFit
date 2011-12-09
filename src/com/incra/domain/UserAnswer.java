@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.incra.domain.enums.AnswerStatus;
+
 @Entity
 @Table(name = "user_answer")
 public class UserAnswer extends AbstractDomain implements Serializable {
@@ -33,6 +35,8 @@ public class UserAnswer extends AbstractDomain implements Serializable {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
+
+    private AnswerStatus status;
 
     @Size(min = 0, max = 1000)
     private String text;
@@ -61,6 +65,14 @@ public class UserAnswer extends AbstractDomain implements Serializable {
         this.question = question;
     }
 
+    public AnswerStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AnswerStatus status) {
+        this.status = status;
+    }
+
     public String getText() {
         return text;
     }
@@ -75,6 +87,7 @@ public class UserAnswer extends AbstractDomain implements Serializable {
         sb.append("UserAnswer[user=" + user);
         sb.append(", question=" + question.getText());
         sb.append(", text=" + text);
+        sb.append(", status=" + status);
         sb.append("]");
         return sb.toString();
     }
