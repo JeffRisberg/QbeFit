@@ -19,22 +19,67 @@
     <put-attribute name="title" value="X" />
     <put-attribute name="body" value="/WEB-INF/views/accessDenied.jsp" />
   </definition>
+   
+  <definition name="home/*" extends="standardLayout">
+    <put-attribute name="title" value="Welcome" />
+    <put-attribute name="body" value="/WEB-INF/views/home/{1}.jsp" />
+  </definition>
+
+  <definition name="register/*" extends="standardLayout">
+    <put-attribute name="title" value="Registration" />
+    <put-attribute name="body" value="/WEB-INF/views/register/{1}.jsp" />
+  </definition>
+
+  <definition name="activitySelect/*" extends="standardLayout">
+    <put-attribute name="title" value="Activities" />
+    <put-attribute name="body" value="/WEB-INF/views/activitySelect/{1}.jsp" />
+  </definition>
+      
+  <definition name="quiz/*" extends="standardLayout">
+    <put-attribute name="title" value="Quiz" />
+    <put-attribute name="body" value="/WEB-INF/views/quiz/{1}.jsp" />
+  </definition>
+  
+  <definition name="suggestions/*" extends="standardLayout">
+    <put-attribute name="title" value="Suggestions" />
+    <put-attribute name="body" value="/WEB-INF/views/suggestions/{1}.jsp" />
+  </definition>
+  
+  <definition name="plan/*" extends="standardLayout">
+    <put-attribute name="title" value="Plan" />
+    <put-attribute name="body" value="/WEB-INF/views/plan/{1}.jsp" />
+  </definition>
+  
+  <definition name="leaderboard/*" extends="standardLayout">
+    <put-attribute name="title" value="Leaderboard" />
+    <put-attribute name="body" value="/WEB-INF/views/leaderboard/{1}.jsp" />
+  </definition>
+  
+  <definition name="comparison/*" extends="standardLayout">
+    <put-attribute name="title" value="Comparison" />
+    <put-attribute name="body" value="/WEB-INF/views/comparison/{1}.jsp" />
+  </definition>
+  
+   <definition name="history/*" extends="standardLayout">
+    <put-attribute name="title" value="History" />
+    <put-attribute name="body" value="/WEB-INF/views/history/{1}.jsp" />
+  </definition>  
+  
+  <definition name="adminHome/*" extends="standardLayout">
+    <put-attribute name="title" value="Admin" />
+    <put-attribute name="body" value="/WEB-INF/views/adminHome/{1}.jsp" />
+  </definition>
   
   <definition name="logEntry/*" extends="standardLayout">
     <put-attribute name="title" value="Log Entries" />
     <put-attribute name="body" value="/WEB-INF/views/logEntry/{1}.jsp" />
   </definition>
   
-  <definition name="home/*" extends="standardLayout">
-    <put-attribute name="title" value="Welcome" />
-    <put-attribute name="body" value="/WEB-INF/views/home/{1}.jsp" />
+  <definition name="organizationType/*" extends="standardLayout">
+    <put-attribute name="title" value="Organization Types" />
+    <put-attribute name="body" value="/WEB-INF/views/organizationType/{1}.jsp" />
   </definition>
-  
-  <definition name="administration/*" extends="standardLayout">
-    <put-attribute name="title" value="Admin" />
-    <put-attribute name="body" value="/WEB-INF/views/administration/{1}.jsp" />
-  </definition>
-  
+    
   <definition name="level/*" extends="standardLayout">
     <put-attribute name="title" value="Levels" />
     <put-attribute name="body" value="/WEB-INF/views/level/{1}.jsp" />
@@ -50,19 +95,9 @@
     <put-attribute name="body" value="/WEB-INF/views/user/{1}.jsp" />
   </definition>
   
-  <definition name="register/*" extends="standardLayout">
-    <put-attribute name="title" value="Registration" />
-    <put-attribute name="body" value="/WEB-INF/views/register/{1}.jsp" />
-  </definition>
-  
   <definition name="activity/*" extends="standardLayout">
     <put-attribute name="title" value="Activities" />
     <put-attribute name="body" value="/WEB-INF/views/activity/{1}.jsp" />
-  </definition>
-  
-  <definition name="activitySelect/*" extends="standardLayout">
-    <put-attribute name="title" value="Activities" />
-    <put-attribute name="body" value="/WEB-INF/views/activitySelect/{1}.jsp" />
   </definition>
   
   <definition name="goal/*" extends="standardLayout">
@@ -79,20 +114,5 @@
     <put-attribute name="title" value="Challenges" />
     <put-attribute name="body" value="/WEB-INF/views/challenge/{1}.jsp" />
   </definition>
-  
-  <definition name="organizationType/*" extends="standardLayout">
-    <put-attribute name="title" value="Organization Types" />
-    <put-attribute name="body" value="/WEB-INF/views/organizationType/{1}.jsp" />
-  </definition>
-  
-  <definition name="history/*" extends="standardLayout">
-    <put-attribute name="title" value="History" />
-    <put-attribute name="body" value="/WEB-INF/views/history/{1}.jsp" />
-  </definition>
-  
-  <definition name="quiz/*" extends="standardLayout">
-    <put-attribute name="title" value="Quiz" />
-    <put-attribute name="body" value="/WEB-INF/views/quiz/{1}.jsp" />
-  </definition>
-  
+      
 </tiles-definitions>

@@ -1,45 +1,55 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<style>
-  .list { margin: 15px 0px; }
-</style>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page import="com.incra.domain.enums.EnumFieldType" %>
 
 <c:if test="${flashMessage != null}">
   <div class="message">${flashMessage}</div>
 </c:if>
 
-<c:url var="saveUrl" value="/quiz/indexUpdate"/>
+<div id="top" style="width: 790px; background: #EDEDEE; margin: 0px auto; font-size: 16pt; padding: 5px;"> 
+	<b>${questionCategory.name}</b>
+</div>
+					
+<div id="title" style="width: 790px; background: #EDEDEE; margin: 0px auto; font-size: 8pt; padding: 5px; " >
+	${questionCategory.name} Questions:	
+</div>
+
+<c:url var="saveUrl" value="/quiz/update"/>
 <form:form method="post" action="${saveUrl}">
-  <table>    
-    <tbody>
-      <c:forEach var="question" items="${questionList}" varStatus="rowCounter">
-        <tr>          
-          <td>${rowCounter.count}. ${question.text}</td>
-                    
-          <c:if test="${question.questionType == 'InputString'}">       
+  <table>	   
+		<tbody>
+			<c:forEach var="question" items="${questionList}" varStatus="rowCounter">
+				<tr>					
+					<td>${rowCounter.count}. ${question.text}</td>
+										
+					<c:if test="${question.questionType == 'String'}">					
+						<td><input type="text"/></td>
+					</c:if>
+					<c:if test="${question.questionType == 'Number'}">					
+						<td><input type="text"/></td>
+					</c:if>
+					<c:if test="${question.questionType == 'Range'}">         
             <td><input type="text"/></td>
-          </c:if>
-          <c:if test="${question.questionType == 'InputNumber'}">           
-            <td><input type="text"/></td>
-          </c:if>     
-          <c:if test="${question.questionType == 'Checkbox'}">        
-            <td><input type="checkbox" name="ans" value="ans"></td>
-          </c:if>                                                                   
-        </tr> 
-      </c:forEach>
-          
-      <c:if test="${empty questionList}">
-        <tr>
-          <td colspan="999">No questions found, please select more goals.</td>
-        </tr>
-      </c:if>
-    </tbody>    
-  </table>
-    
-  <div style="padding: 15px; text-align: bottom;">
-    <input type="Submit" name="submit" Value="Submit">
-  </div> 
+          </c:if>			
+					<c:if test="${question.questionType == 'Boolean'}">						
+						<td><input type="checkbox" name="ans" value="ans"></td>
+					</c:if>																																		
+				</tr>	
+			</c:forEach>
+					
+			<c:if test="${empty questionList}">
+				<tr>
+					<td colspan="999">No questions found</td>
+				</tr>
+			</c:if>
+		</tbody>		
+  	</table>
+
+	<div id="Bottom" style="height: 50px; width: 275px; background: grey; margin: 20px auto; text-align: center; ">
+		<input class="save" type="submit" value="Bubble this!"
+			     style="background:grey; border: 0px solid black; font-size: 18pt;"/>
+	</div>
 
  </form:form> 
+

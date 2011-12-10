@@ -11,57 +11,55 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.incra.domain.Question;
 import com.incra.domain.QuestionCategory;
 
 /**
- * The <i>QuestionService</i> handles the Hibernate-session based updating of
- * Question entities.
+ * The <i>QuestionCategoryService</i> handles the Hibernate-session based
+ * updating of QuestionCategory entities.
  * 
- * @author Jeff Risberg
- * @since 11/26/11
+ * @author Jeffrey Risberg
+ * @since 12/06/11
  */
 @Service
 @Transactional
 @Repository
-public class QuestionService {
+public class QuestionCategoryService {
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @SuppressWarnings("unchecked")
-    public List<Question> findEntityList() {
+    public List<QuestionCategory> findEntityList() {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Question.class);
+        Criteria criteria = session.createCriteria(QuestionCategory.class);
 
         return criteria.list();
     }
 
-    public Question findEntityById(int id) {
+    public QuestionCategory findEntityById(int id) {
         Session session = sessionFactory.getCurrentSession();
 
-        return (Question) session.get(Question.class, id);
+        return (QuestionCategory) session.get(QuestionCategory.class, id);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Question> findEntityListByQuestionCategory(QuestionCategory questionCategory) {
+    public QuestionCategory findEntityByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Question.class);
+        Criteria criteria = session.createCriteria(QuestionCategory.class);
 
-        criteria.add(Restrictions.eq("questionCategory", questionCategory));
+        criteria.add(Restrictions.eq("name", name));
 
-        return criteria.list();
+        return (QuestionCategory) criteria.uniqueResult();
     }
 
-    public void save(Question quiz) {
+    public void save(QuestionCategory questionCategory) {
         Session session = sessionFactory.getCurrentSession();
 
-        session.saveOrUpdate(quiz);
+        session.saveOrUpdate(questionCategory);
     }
 
-    public void delete(Question quiz) {
+    public void delete(QuestionCategory questionCategory) {
         Session session = sessionFactory.getCurrentSession();
 
-        session.delete(quiz);
+        session.delete(questionCategory);
     }
 }

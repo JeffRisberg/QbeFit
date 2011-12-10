@@ -1,5 +1,9 @@
 package com.incra.controllers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -7,25 +11,27 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.incra.domain.Activity;
-import com.incra.domain.ActivityCategory;
-import com.incra.domain.propertyEditor.ActivityCategoryPropertyEditor;
-import com.incra.domain.propertyEditor.ActivityPropertyEditor;
-import com.incra.services.ActivityCategoryService;
-import com.incra.services.ActivityService;
+import com.incra.controllers.dto.LeaderboardEntry;
+import com.incra.domain.QuestionCategory;
+import com.incra.domain.User;
+import com.incra.domain.UserQuestionCategoryScore;
+import com.incra.services.QuestionCategoryService;
+import com.incra.services.UserQuestionCategoryScoreService;
+import com.incra.services.UserService;
 
 /**
- * The <i>LeaderboardController</i> is under development.
+ * The <i>LeaderboardController</i> provides a list-based only against other
+ * users of the same organization type. A leaderboard typically only shows the
+ * top 10 users. There should be an option-link to show the full leaderboard.
+ * 
+ * From the leaderboard, we can run the comparison screen, to go more details.
  * 
  * @author Jeff Risberg
- * @since 11/20/11
+ * @since 12/02/11
  */
 @Controller
 public class LeaderboardController {
@@ -33,35 +39,48 @@ public class LeaderboardController {
     protected static Logger logger = LoggerFactory.getLogger(LeaderboardController.class);
 
     @Autowired
-    private ActivityService activityService;
+    private UserService userService;
     @Autowired
-    private ActivityCategoryService activityCategoryService;
+    private QuestionCategoryService questionCategoryService;
+    @Autowired
+    private UserQuestionCategoryScoreService userQuestionCategoryScoreService;
 
     public LeaderboardController() {
     }
 
-    @InitBinder
-    protected void initBinder(WebDataBinder dataBinder) throws Exception {
-        dataBinder
-                .registerCustomEditor(Activity.class, new ActivityPropertyEditor(activityService));
-        dataBinder.registerCustomEditor(ActivityCategory.class, new ActivityCategoryPropertyEditor(
-                activityCategoryService));
-    }
+    /**
+     * Display the leaderboard
+     */
+    @RequestMapping(value = "/leaderboard/**", method = RequestMethod.GET)
+    public ModelAndView index(Model model, HttpSession session) {
 
-    @RequestMapping(value = "/leaderboard/show/{id}", method = RequestMethod.GET)
-    public ModelAndView show(@PathVariable int id, Model model, HttpSession session) {
-        ActivityCategory activityCategory = activityCategoryService.findEntityById(id);
+        List<User> userList = userService.findEntityList();
+        List<QuestionCategory> questionCategoryList = questionCategoryService.findEntityList();
 
-        if (activityCategory != null) {
-            // List<Quiz> quizList =
-            // quizService.findEntityListByActivityCategory(activityCategory);
+        List<LeaderboardEntry> leaderboardEntries = new ArrayList<LeaderboardEntry>();
 
-            ModelAndView modelAndView = new ModelAndView("leaderboard/show");
-            // modelAndView.addObject("quizList", quizList);
-            modelAndView.addObject("activityCategory", activityCategory.getName());
-            return modelAndView;
+        for (User user : userList) {
+            if (user.isTemporary() == false) {
+                List<UserQuestionCategoryScore> qcScoreList = userQuestionCategoryScoreService
+                        .findEntityList(user);
+                int totalScore = 0;
+
+                for (UserQuestionCategoryScore qcScore : qcScoreList) {
+                    totalScore += qcScore.getScore();
+                }
+
+                LeaderboardEntry leaderboardEntry = new LeaderboardEntry(user, totalScore);
+                leaderboardEntries.add(leaderboardEntry);
+            }
         }
 
-        throw new RuntimeException("Internal error, no Activity category");
+        Collections.sort(leaderboardEntries);
+        // prune to 10 max
+
+        ModelAndView modelAndView = new ModelAndView("leaderboard/index");
+        modelAndView.addObject("leaderboardEntries", leaderboardEntries);
+        modelAndView.addObject("questionCategoryList", questionCategoryList);
+
+        return modelAndView;
     }
 }
