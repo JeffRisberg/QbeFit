@@ -20,6 +20,15 @@
 <img src="<c:url value="/resources/images/exerciseAtDesk.jpg" />" 
    style="width: 500px; margin-left: 150px; margin: 10px 0px;">
 
-<div style="margin: 20px 0px; padding: 5px; background: #eee; font-size: 20px;">
-<a href="<c:url value="/home/tryItOut" />">Try it out!</a>
+<div style="margin: 20px auto; padding: 5px; font-size: 16px; ">
+<button style="margin: 0px auto;" id="tryItOut" onClick="window.location='<c:url value="/home/tryItOut" />';">
+Try it out!
+</button>
 </div>
+
+<script type="text/javascript">  
+//Apply jQuery/jQueryUI behavior to elements on this page
+  $(document).ready(function() { 
+     $('#tryItOut').button();
+  });  
+</script>

@@ -6,21 +6,24 @@
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
-	<title>
-	   <tiles:insertAttribute name="title" ignore="true" />
-	</title>
-	<link rel="stylesheet" href="<c:url value="/resources/styles/main.css" />" type="text/css" media="screen" />
+  <title>
+     <tiles:insertAttribute name="title" ignore="true" />
+  </title>
+  <link rel="stylesheet" href="<c:url value="/resources/styles/main.css" />" type="text/css" media="screen" />
   <link rel="stylesheet" type="text/css" href="<c:url value="/resources/styles/start/jquery-ui-1.8.16.custom.css" />" />   
   <script type="text/javascript" src="<c:url value="/resources/javascript/jquery-1.6.4.min.js" />"></script>
   <script type="text/javascript" src="<c:url value="/resources/javascript/jquery-ui-1.8.16.custom.min.js" />"></script>
+  <meta name="viewport" content="user-scalable=0, width=device-width, maximum-scale=1.0">
 </head>
 <body>
 <div id="header">
   <tiles:insertAttribute name="header" />
 </div>
-<div id="content">
+<div class="panel-875-top"></div>
+<div id="content" class="panel-875-mid">
   <tiles:insertAttribute name="body" />
 </div>
+<div class="panel-875-bot"></div>
 <div style="clear:both"></div>
 <div id="footer">
   <tiles:insertAttribute name="footer" />

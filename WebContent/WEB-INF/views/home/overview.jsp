@@ -29,8 +29,10 @@
         title="${level.description}"/>
   </div>
   <div class="statusArea" style="margin-bottom: 10px; margin-left: 50px; padding-bottom: 0px">
-   <div style="float:right;">
-     <a class="button" href="<c:url value="/level" />">Show Levels</a>
+   <div style="float:right; font-size: 14px; ">
+     <button id="showLevels" onClick="window.location='<c:url value="/level" />';">
+     Show Levels
+     </button>
    </div>
    You are ${level.article} ${level.name}, with ${points} points
    <div style="clear:both"></div>
@@ -95,4 +97,9 @@
       }
     });
   }
+  
+  // Apply jQuery behavior to elements on this page
+  $(document).ready(function() {  
+    $('#showLevels').button();
+  });  
 </script>

@@ -6,12 +6,12 @@ html * {
 }
 
 body {
-    background: #fff url(../images/skin/background.png) 0 0 repeat-x;   
+     background: url(../images/skin/background.png) repeat 0 0 transparent;
     padding: 0px;
     color: #333;
     font: 11px verdana, arial, helvetica, sans-serif;
     margin: 3px auto;   
-    width: 800px;
+    width: 875px;
 }
 
 a:link, a:visited, a:hover {
@@ -279,7 +279,7 @@ td.errors textarea {
 /* LAYOUT ELEMENTS */
 
 #header {
-  margin: 7px 0px 30px 0px;
+  margin: 7px 0px 20px 0px;
   height: 80px;
   color: black;
   border: 1px solid white;
@@ -300,10 +300,6 @@ td.errors textarea {
 }
 
 #content {
-  overflow: hidden;
-  display: inline; /* IE double margin bug fix */
-  margin: 3px 0px 3px 0px;
-  width: 800px;
 }
 
 #footer {
@@ -311,7 +307,7 @@ td.errors textarea {
 	margin-top: 12px;
 	color: #000;
 	padding: 5px;
-	width: 800px;
+	width: 875px;
 	border-bottom: 2px solid #FD4980;
 }
 
@@ -336,4 +332,41 @@ td.errors textarea {
 	font-size: 12px; 
 	float: right; 
 	padding: 2px; 
+}
+
+
+.panel-475-top {
+   background: transparent url(../images/skin/bgr-panel-475-top.png) 0 0 no-repeat;  
+   width: 475px;
+   height: 12px;
+}
+
+.panel-475-mid {
+   background: transparent url(../images/skin/bgr-panel-475-mid.png) 0 0 repeat-y;  
+   padding: 3px 20px 3px 20px;  
+   width: 435px;
+}
+
+.panel-475-bot {
+   background: transparent url(../images/skin/bgr-panel-475-bot.png) 0 0 no-repeat;
+   width: 475px;
+   height: 12px;  
+}
+
+.panel-875-top {
+   background: transparent url(../images/skin/bgr-panel-875-top.png) 0 0 no-repeat;
+   width: 875px;  
+   height: 12px;
+}
+
+.panel-875-mid {
+   background: transparent url(../images/skin/bgr-panel-875-mid.png) 0 0 repeat-y;  
+   padding: 3px 20px 3px 20px;
+   width: 835px;
+}
+
+.panel-875-bot {
+   background: transparent url(../images/skin/bgr-panel-875-bot.png) 0 0 no-repeat;
+   width: 875px;
+   height: 12px;  
 }
