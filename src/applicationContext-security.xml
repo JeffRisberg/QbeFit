@@ -11,7 +11,8 @@
     <http use-expressions="true" access-denied-page="/accessDenied">
       <intercept-url pattern="/" access="permitAll()" />
       <intercept-url pattern="/home/**" access="permitAll()" />             
-      <intercept-url pattern="/register/**" access="permitAll()" />     
+      <intercept-url pattern="/register/**" access="permitAll()" />  
+      <intercept-url pattern="/level/**" access="permitAll()" />   
       <intercept-url pattern="/activitySelect/**" access="permitAll()" />
       <intercept-url pattern="/quiz/**" access="permitAll()" />     
       <intercept-url pattern="/resources/**" access="permitAll()" />      
