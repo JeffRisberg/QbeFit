@@ -15,18 +15,20 @@
 		<table class="summary">
 			<thead>
 				<tr>
-					<th>Text</th>										
-					<th>Goal</th>
-					<th>Points</th>
+					<th>Text</th>		
+					<th>Category</th>
+					<th>Points</th>								
+					<th>Explanation</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="question" items="${questionList}" varStatus="rowCounter">				   
 					<tr class="${rowCounter.count % 2 == 0 ? 'even' : 'odd'}">
-						<td><a href="<c:url value="/question/show/${question.id}" />">${question.text}</a>						
-						<td>${question.goal.name}</td>
-						<td style="text-align: right">${question.points}</td>
+						<td><a href="<c:url value="/question/show/${question.id}" />">${question.text}</a>
+						<td>${question.questionCategory.name}</td>
+						<td>${question.points}</td>   						
+						<td>${question.explanation}</td>
 						<td><a href="<c:url value="/question/edit/${question.id}" />">Edit</a></td>
 					</tr>
 				</c:forEach>
