@@ -33,46 +33,49 @@ import com.incra.services.UserService;
 @Controller
 public class QuizController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private QuestionService questionService;
-    @Autowired
-    private QuestionCategoryService questionCategoryService;
-    @Autowired
-    private UserQuestionCategoryScoreService userQuestionCategoryScoreService;
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private QuestionService questionService;
+  @Autowired
+  private QuestionCategoryService questionCategoryService;
+  @Autowired
+  private UserQuestionCategoryScoreService userQuestionCategoryScoreService;
 
-    public QuizController() {
-    }
+  public QuizController() {
+  }
 
-    @InitBinder
-    protected void initBinder(WebDataBinder dataBinder) throws Exception {
-    }
+  @InitBinder
+  protected void initBinder(WebDataBinder dataBinder) throws Exception {
+  }
 
-    /**
-     * Method to display the quiz.
-     */
-    @RequestMapping(value = "/quiz/{id}", method = RequestMethod.GET)
-    public ModelAndView show(@PathVariable int id, Model model, HttpSession session) {
+  /**
+   * Method to display the quiz.
+   */
+  @RequestMapping(value = "/quiz/{id}", method = RequestMethod.GET)
+  public ModelAndView show(@PathVariable int id, Model model,
+      HttpSession session) {
 
-        QuestionCategory questionCategory = questionCategoryService.findEntityById(id);
+    QuestionCategory questionCategory = questionCategoryService
+        .findEntityById(id);
 
-        List<Question> questionList = questionService
-                .findEntityListByQuestionCategory(questionCategory);
+    List<Question> questionList = questionService
+        .findEntityListByQuestionCategory(questionCategory);
 
-        ModelAndView modelAndView = new ModelAndView("quiz/index");
-        modelAndView.addObject("questionList", questionList);
-        modelAndView.addObject("questionCategory", questionCategory);
-        return modelAndView;
-    }
+    ModelAndView modelAndView = new ModelAndView("quiz/index");
+    modelAndView.addObject("questionList", questionList);
+    modelAndView.addObject("questionCategory", questionCategory);
+    return modelAndView;
+  }
 
-    /**
-     * Method to process the posted answers.
-     */
-    @RequestMapping(value = "/quiz/update", method = RequestMethod.POST)
-    public String indexUpdate(HttpSession httpSession) {
-        User curUser = userService.getCurrentUser();
+  /**
+   * Method to process the posted answers.
+   */
+  @SuppressWarnings("unused")
+  @RequestMapping(value = "/quiz/update", method = RequestMethod.POST)
+  public String indexUpdate(HttpSession httpSession) {
+    User curUser = userService.getCurrentUser();
 
-        return "redirect:/home";
-    }
+    return "redirect:/home";
+  }
 }
