@@ -17,7 +17,8 @@
 				<tr>
 					<th>Text</th>		
 					<th>Category</th>
-					<th>Points</th>								
+					<th>Points</th>	
+					<th>Type</th>  							
 					<th>Explanation</th>
 					<th>Action</th>
 				</tr>
@@ -27,7 +28,8 @@
 					<tr class="${rowCounter.count % 2 == 0 ? 'even' : 'odd'}">
 						<td><a href="<c:url value="/question/show/${question.id}" />">${question.text}</a>
 						<td>${question.questionCategory.name}</td>
-						<td>${question.points}</td>   						
+						<td>${question.points}</td>  
+						<td>${question.questionType}</td>   						
 						<td>${question.explanation}</td>
 						<td><a href="<c:url value="/question/edit/${question.id}" />">Edit</a></td>
 					</tr>
