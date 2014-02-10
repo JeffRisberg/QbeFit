@@ -106,7 +106,7 @@
   </definition>
   
   <definition name="question/*" extends="standardLayout">
-    <put-attribute name="title" value="Question" />
+    <put-attribute name="title" value="Questions" />
     <put-attribute name="body" value="/WEB-INF/views/question/{1}.jsp" />
   </definition>
   

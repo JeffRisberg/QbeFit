@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="com.incra.domain.enums.EnumFieldType" %>
 
 <c:if test="${flashMessage != null}">
   <div class="message">${flashMessage}</div>
@@ -46,9 +45,8 @@
 		</tbody>		
   	</table>
 
-	<div id="Bottom" style="height: 50px; width: 275px; background: grey; margin: 20px auto; text-align: center; ">
-		<input class="save" type="submit" value="Bubble this!"
-			     style="background:grey; border: 0px solid black; font-size: 18pt;"/>
+	<div id="Bottom" style="height: 50px; width: 275px; text-align: center; ">
+		<input class="save" type="submit" value="Submit"/>
 	</div>
 
  </form:form> 

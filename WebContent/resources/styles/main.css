@@ -6,7 +6,7 @@ html * {
 }
 
 body {
-     background: url(../images/skin/background.png) repeat 0 0 transparent;
+     background: url(../images/skin/background.png) repeat-x 0 0 transparent;
     padding: 0px;
     color: #333;
     font: 11px verdana, arial, helvetica, sans-serif;

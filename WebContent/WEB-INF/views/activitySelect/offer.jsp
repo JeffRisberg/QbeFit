@@ -29,7 +29,7 @@
 <div style="font-size: 16px; padding: 4px;">
 Suggested Activity ${index} of ${total}: ${activity.name}
 </div>
-<div style="font-size: 14px; padding: 4px;">
+<div style="font-size: 14px; padding: 4px; height: 30px">
 ${activity.description}
 </div>
 

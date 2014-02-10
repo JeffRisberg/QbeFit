@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,269 +45,262 @@ import com.incra.services.UserService;
  */
 @Controller
 public class HomeController {
-    protected static int numColumns = 6;
-    protected static int initialUserPoints = 20;
+  protected static int numColumns = 6;
+  protected static int initialUserPoints = 20;
 
-    protected static Logger logger = LoggerFactory.getLogger(HomeController.class);
+  protected static Logger logger = LoggerFactory
+      .getLogger(HomeController.class);
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private LevelService levelService;
-    @Autowired
-    private ActivityService activityService;
-    @Autowired
-    private UserActivityService userActivityService;
-    @Autowired
-    private EventService eventService;
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private LevelService levelService;
+  @Autowired
+  private ActivityService activityService;
+  @Autowired
+  private UserActivityService userActivityService;
+  @Autowired
+  private EventService eventService;
 
-    public HomeController() {
+  public HomeController() {
+  }
+
+  @RequestMapping(value = "/")
+  public String root() {
+    return "redirect:/home";
+  }
+
+  @RequestMapping(value = "/accessDenied")
+  public String accessDenied() {
+    return "accessDenied";
+  }
+
+  // PRIMARY SCREEN MANAGEMENT
+
+  /**
+   * Primary display method
+   */
+  @RequestMapping(value = "/home/**", method = RequestMethod.GET)
+  public ModelAndView index(HttpServletRequest httpRequest,
+      HttpSession httpSession) {
+
+    boolean errorFlag = httpRequest.getParameter("login_error") != null;
+
+    if (errorFlag == false
+        && httpSession.getAttribute("splashScreenShown") != null) {
+      return overview();
     }
 
-    @RequestMapping(value = "/")
-    public String root() {
-        return "redirect:/home";
+    List<Activity> activities = activityService.findEntityList();
+
+    ModelAndView modelAndView = new ModelAndView("home/index");
+    modelAndView.addObject("numActivities", activities.size());
+    modelAndView.addObject("isError", errorFlag);
+
+    if (errorFlag == false) {
+      httpSession.setAttribute("splashScreenShown", Boolean.TRUE);
+    }
+    return modelAndView;
+  }
+
+  @RequestMapping(value = "/home/tryItOut")
+  public String tryItOut() {
+    User user = userService.getCurrentUser();
+
+    if (user.isAboutMeInfoGathered()) {
+      return "redirect:/home/overview";
+    } else {
+      return "redirect:/activitySelect/aboutMe";
+    }
+  }
+
+  // LOGIN MANAGEMENT
+
+  /**
+   * Spring security forwards here after a successful login. Update the counts.
+   */
+  @RequestMapping(value = "/home/login", method = RequestMethod.POST)
+  public String login(HttpServletRequest httpRequest) {
+
+    User user = userService.getCurrentUser();
+
+    user.setLastLoggedIn(new Date());
+    user.setLoginCount(user.getLoginCount() + 1);
+    userService.save(user);
+
+    return "redirect:/home";
+  }
+
+  // OVERVIEW SCREEN
+
+  /**
+   * Show the selected activities, and the day-by-day historical completions.
+   */
+  @RequestMapping(value = "/home/overview")
+  public ModelAndView overview() {
+
+    User user = userService.getCurrentUser();
+
+    if (logger.isInfoEnabled()) {
+      logger.info("overview for " + user);
     }
 
-    @RequestMapping(value = "/accessDenied")
-    public String accessDenied() {
-        return "accessDenied";
+    List<TrackSummaryRow> trackSummaryRowList = new ArrayList<TrackSummaryRow>();
+    List<TrackSummaryColumn> trackSummaryColumnList = new ArrayList<TrackSummaryColumn>();
+
+    TrackSummaryColumn trackSummaryColumn;
+    Calendar calendar = new GregorianCalendar();
+    Date date = new Date();
+
+    for (int i = 0; i < numColumns; i++) {
+      Date priorDate = (Date) date.clone();
+      calendar.setTime(date);
+      calendar.add(Calendar.DAY_OF_YEAR, -1);
+      date = calendar.getTime();
+      String label = "" + i + " days ago";
+
+      if (i == 1)
+        label = "1 day ago";
+      if (i == 0)
+        label = "Today";
+
+      trackSummaryColumn = new TrackSummaryColumn(date, priorDate, label);
+      trackSummaryColumnList.add(0, trackSummaryColumn);
     }
 
-    // PRIMARY SCREEN MANAGEMENT
+    List<UserActivity> userActivityList = userActivityService
+        .findEntityList(user);
 
-    /**
-     * Primary display method
-     */
-    @RequestMapping(value = "/home/**", method = RequestMethod.GET)
-    public ModelAndView index(HttpServletRequest httpRequest, HttpSession httpSession) {
-
-        boolean errorFlag = httpRequest.getParameter("login_error") != null;
-
-        if (errorFlag == false && httpSession.getAttribute("splashScreenShown") != null) {
-            return overview();
-        }
-
-        List<Activity> activities = activityService.findEntityList();
-
-        ModelAndView modelAndView = new ModelAndView("home/index");
-        modelAndView.addObject("numActivities", activities.size());
-        modelAndView.addObject("isError", errorFlag);
-
-        if (errorFlag == false) {
-            httpSession.setAttribute("splashScreenShown", Boolean.TRUE);
-        }
-        return modelAndView;
+    for (UserActivity userActivity : userActivityList) {
+      if (userActivity.getEffectivityEnd() == null) {
+        populateRow(userActivity, trackSummaryColumnList, trackSummaryRowList);
+      }
     }
 
-    @RequestMapping(value = "/home/tryItOut")
-    public String tryItOut() {
-        User user = userService.getCurrentUser();
-
-        if (user.isAboutMeInfoGathered()) {
-            return "redirect:/home/overview";
+    Map<ActivityCategory, Double> bubbleMap = new HashMap<ActivityCategory, Double>();
+    for (UserActivity userActivity : userActivityList) {
+      if (userActivity.getEffectivityEnd() == null) {
+        ActivityCategory ac = userActivity.getActivity().getActivityCategory();
+        if (bubbleMap.get(ac) == null) {
+          bubbleMap.put(ac, new Double(0.2));
         } else {
-            return "redirect:/activitySelect/aboutMe";
+          Double oldValue = bubbleMap.get(ac);
+          bubbleMap.put(ac, new Double(oldValue + 0.34));
         }
+      }
     }
 
-    // LOGIN MANAGEMENT
+    ModelAndView modelAndView = new ModelAndView("home/overview");
+    if (user.isTemporary() == false) {
+      modelAndView.addObject("userName",
+          user.getFirstName() + " " + user.getLastName());
+      modelAndView.addObject("organizationType", user.getOrganizationType());
+      modelAndView.addObject("points", user.getPoints());
+      modelAndView.addObject("level", user.getLevel());
+      modelAndView.addObject("userBadges", user.getUserBadges());
+    }
+    modelAndView.addObject("trackSummaryColumnList", trackSummaryColumnList);
+    modelAndView.addObject("trackSummaryRowList", trackSummaryRowList);
+    modelAndView.addObject("bubbleMap", bubbleMap);
+    return modelAndView;
+  }
 
-    /**
-     * Spring security forwards here after a successful login. Update the
-     * counts.
-     */
-    @RequestMapping(value = "/home/login", method = RequestMethod.POST)
-    public String login(HttpServletRequest httpRequest) {
+  /**
+   * Handle clicking on an activity name
+   */
+  @RequestMapping(value = "/home/activity/{id}", method = RequestMethod.GET)
+  public String activity(@PathVariable int id, Model model, HttpSession session) {
 
-        User user = userService.getCurrentUser();
+    Activity activity = activityService.findEntityById(id);
+    if (activity != null) {
+      model.addAttribute(activity);
+      return "home/activity";
+    } else {
+      return "redirect:/home/index";
+    }
+  }
 
-        user.setLastLoggedIn(new Date());
-        user.setLoginCount(user.getLoginCount() + 1);
-        userService.save(user);
+  /**
+   * Handle performing an activity
+   */
+  @RequestMapping(value = "/home/doneIt/{id}", method = RequestMethod.GET)
+  public @ResponseBody
+  Map<String, Object> doneIt(@PathVariable Integer id,
+      HttpServletRequest request, HttpServletResponse response,
+      HttpSession session) {
+    User user = userService.getCurrentUser();
 
-        return "redirect:/home";
+    UserActivity userActivity = userActivityService.findEntityById(id);
+
+    if (userActivity != null) {
+      Activity activity = userActivity.getActivity();
+      int difficulty = activity.getDifficulty();
+
+      Event event = new Event();
+      event.setUserActivity(userActivity);
+      event.setEventDate(new Date());
+      eventService.save(event);
+
+      user.setPoints(user.getPoints() + difficulty);
+      user.setLevel(levelService.computeLevel(user.getPoints()));
+
+      userService.save(user);
     }
 
-    // OVERVIEW SCREEN
+    return null;
+  }
 
-    /**
-     * Show the selected activities, and the day-by-day historical completions.
-     */
-    @RequestMapping(value = "/home/overview")
-    public ModelAndView overview() {
+  // ABOUT AND TERMS SCREENS
 
-        User user = userService.getCurrentUser();
+  @RequestMapping(value = "/home/about", method = RequestMethod.GET)
+  public ModelAndView about() {
 
-        if (logger.isInfoEnabled()) {
-            logger.info("overview for " + user);
-        }
+    ModelAndView modelAndView = new ModelAndView("home/about");
+    return modelAndView;
+  }
 
-        List<TrackSummaryRow> trackSummaryRowList = new ArrayList<TrackSummaryRow>();
-        List<TrackSummaryColumn> trackSummaryColumnList = new ArrayList<TrackSummaryColumn>();
+  @RequestMapping(value = "/home/terms", method = RequestMethod.GET)
+  public ModelAndView terms() {
 
-        TrackSummaryColumn trackSummaryColumn;
-        Calendar calendar = new GregorianCalendar();
-        Date date = new Date();
+    ModelAndView modelAndView = new ModelAndView("home/terms");
+    return modelAndView;
+  }
 
-        for (int i = 0; i < numColumns; i++) {
-            Date priorDate = (Date) date.clone();
-            calendar.setTime(date);
-            calendar.add(Calendar.DAY_OF_YEAR, -1);
-            date = calendar.getTime();
-            String label = "" + i + " days ago";
+  // SUPPORTING METHODS
 
-            if (i == 1)
-                label = "1 day ago";
-            if (i == 0)
-                label = "Today";
+  /**
+   * Populate a row of the track summary grid. Each row is for a specific
+   * userActivity.
+   */
+  protected void populateRow(UserActivity userActivity,
+      List<TrackSummaryColumn> trackSummaryColumnList,
+      List<TrackSummaryRow> trackSummaryRowList) {
 
-            trackSummaryColumn = new TrackSummaryColumn(date, priorDate, label);
-            trackSummaryColumnList.add(0, trackSummaryColumn);
-        }
+    Activity activity = userActivity.getActivity();
+    List<Event> events = eventService.findEntityList(userActivity);
 
-        List<UserActivity> userActivityList = userActivityService.findEntityList(user);
+    TrackSummaryRow trackSummaryRow = new TrackSummaryRow(activity.getName(),
+        activity.getId(), userActivity.getId());
+    for (TrackSummaryColumn col : trackSummaryColumnList) {
+      Date fromDate = col.getFromDate();
+      Date toDate = col.getToDate();
 
-        for (UserActivity userActivity : userActivityList) {
-            if (userActivity.getEffectivityEnd() == null) {
-                populateRow(userActivity, trackSummaryColumnList, trackSummaryRowList);
-            }
-        }
+      boolean bFound = false;
+      for (Event event : events) {
+        Date eventDate = event.getEventDate();
 
-        Map<ActivityCategory, Double> bubbleMap = new HashMap<ActivityCategory, Double>();
-        for (UserActivity userActivity : userActivityList) {
-            if (userActivity.getEffectivityEnd() == null) {
-                ActivityCategory ac = userActivity.getActivity().getActivityCategory();
-                if (bubbleMap.get(ac) == null) {
-                    bubbleMap.put(ac, new Double(0.2));
-                } else {
-                    Double oldValue = bubbleMap.get(ac);
-                    bubbleMap.put(ac, new Double(oldValue + 0.34));
-                }
-            }
-        }
-
-        ModelAndView modelAndView = new ModelAndView("home/overview");
-        if (user.isTemporary() == false) {
-            modelAndView.addObject("userName", user.getFirstName() + " " + user.getLastName());
-            modelAndView.addObject("organizationType", user.getOrganizationType());
-            modelAndView.addObject("points", user.getPoints());
-            modelAndView.addObject("level", user.getLevel());
-            modelAndView.addObject("userBadges", user.getUserBadges());
-        }
-        modelAndView.addObject("trackSummaryColumnList", trackSummaryColumnList);
-        modelAndView.addObject("trackSummaryRowList", trackSummaryRowList);
-        modelAndView.addObject("bubbleMap", bubbleMap);
-        return modelAndView;
+        if (eventDate.after(toDate))
+          continue;
+        if (eventDate.before(fromDate))
+          continue;
+        bFound = true;
+      }
+      if (bFound) {
+        trackSummaryRow.addFlag(true);
+      } else {
+        trackSummaryRow.addFlag(false);
+      }
     }
-
-    /**
-     * Handle clicking on an activity name
-     */
-    @RequestMapping(value = "/home/activity/{id}", method = RequestMethod.GET)
-    public String activity(@PathVariable int id, Model model, HttpSession session) {
-
-        Activity activity = activityService.findEntityById(id);
-        if (activity != null) {
-            model.addAttribute(activity);
-            return "home/activity";
-        } else {
-            return "redirect:/home/index";
-        }
-    }
-
-    /**
-     * Handle performing an activity
-     */
-    @RequestMapping(value = "/home/doneIt/{id}", method = RequestMethod.GET)
-    public @ResponseBody
-    Map<String, Object> doneIt(@PathVariable Integer id, HttpServletRequest request,
-            HttpServletResponse response, HttpSession session) {
-        User user = userService.getCurrentUser();
-
-        UserActivity userActivity = userActivityService.findEntityById(id);
-
-        if (userActivity != null) {
-            Activity activity = userActivity.getActivity();
-            int difficulty = activity.getDifficulty();
-
-            Event event = new Event();
-            event.setUserActivity(userActivity);
-            event.setEventDate(new Date());
-            eventService.save(event);
-
-            user.setPoints(user.getPoints() + difficulty);
-            user.setLevel(levelService.computeLevel(user.getPoints()));
-
-            userService.save(user);
-        }
-
-        return null;
-    }
-
-    // ABOUT AND TERMS SCREENS
-
-    @RequestMapping(value = "/home/about", method = RequestMethod.GET)
-    public ModelAndView about() {
-
-        ModelAndView modelAndView = new ModelAndView("home/about");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/home/terms", method = RequestMethod.GET)
-    public ModelAndView terms() {
-
-        ModelAndView modelAndView = new ModelAndView("home/terms");
-        return modelAndView;
-    }
-
-    // SVG TEST SCREENS
-
-    @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/home/svgTest", method = RequestMethod.GET)
-    public ModelAndView svgTest() {
-
-        System.out.println("running svgTest");
-
-        ModelAndView modelAndView = new ModelAndView("home/svgTest");
-        return modelAndView;
-    }
-
-    // SUPPORTING METHODS
-
-    /**
-     * Populate a row of the track summary grid. Each row is for a specific
-     * userActivity.
-     */
-    protected void populateRow(UserActivity userActivity,
-            List<TrackSummaryColumn> trackSummaryColumnList,
-            List<TrackSummaryRow> trackSummaryRowList) {
-
-        Activity activity = userActivity.getActivity();
-        List<Event> events = eventService.findEntityList(userActivity);
-
-        TrackSummaryRow trackSummaryRow = new TrackSummaryRow(activity.getName(), activity.getId(),
-                userActivity.getId());
-        for (TrackSummaryColumn col : trackSummaryColumnList) {
-            Date fromDate = col.getFromDate();
-            Date toDate = col.getToDate();
-
-            boolean bFound = false;
-            for (Event event : events) {
-                Date eventDate = event.getEventDate();
-
-                if (eventDate.after(toDate))
-                    continue;
-                if (eventDate.before(fromDate))
-                    continue;
-                bFound = true;
-            }
-            if (bFound) {
-                trackSummaryRow.addFlag(true);
-            } else {
-                trackSummaryRow.addFlag(false);
-            }
-        }
-        trackSummaryRowList.add(trackSummaryRow);
-    }
+    trackSummaryRowList.add(trackSummaryRow);
+  }
 }

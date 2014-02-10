@@ -39,7 +39,7 @@
   </tr>
   <tr>
    <td>Explanation:</td>
-   <td><form:textarea path="explanation:" cols="70" rows="3" /></td>
+   <td><form:textarea path="explanation" cols="70" rows="3" /></td>
   </tr>
   </table>
  

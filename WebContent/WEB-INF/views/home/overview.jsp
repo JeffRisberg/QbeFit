@@ -46,20 +46,26 @@
  ${organizationType.name}
 </span>
 </c:if>
+
+<c:if test="${not empty userName}">
 <span class="button">
 <a href="<c:url value="/history/activity" />">Activity Chart</a>
 </span>
+</c:if>
+
+<c:if test="${not empty userName}">
 <span class="button">
 <a href="<c:url value="/history/workout" />">Workout Chart</a>
 </span>
+</c:if>
 
 <div style="margin-top: 10px; margin-left: 12px; width: 775px;">	
   <div class="grid-top">
-   <div style="float:left; width:200px">&nbsp;</div>
-   <c:forEach var="column" items="${trackSummaryColumnList}" varStatus="rowCounter"> 
-    <div style="padding: 10px 0px 0px 0px; float:left; width:85px">${column.label}</div>
-   </c:forEach>
-   <div style="float:left; width:65px">&nbsp;</div>
+    <div style="float:left; width:200px">&nbsp;</div>
+    <c:forEach var="column" items="${trackSummaryColumnList}" varStatus="rowCounter"> 
+      <div style="padding: 10px 0px 0px 0px; float:left; width:85px">${column.label}</div>
+    </c:forEach>
+    <div style="float:left; width:65px">&nbsp;</div>
   </div>
   <div style="clear:both"></div>
   <c:forEach var="row" items="${trackSummaryRowList}" varStatus="rowCounter">   
@@ -85,7 +91,7 @@
 	<a href="<c:url value="/activitySelect/aboutMe" />">Select New Activities</a>
 </div>
 <div class="subsection" class="select">
-  <a href="<c:url value="/quiz" />">Take a Quiz</a>
+  <a href="<c:url value="/quiz/1" />">Take a Quiz</a>
 </div>
 
 <script type="text/javascript"> 
